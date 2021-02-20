@@ -1,0 +1,13 @@
+id, doctor, nurse, patient, department
+0, 0, 3, 6, feet
+1, 1, 3, 7, feet
+2, 2, 3, 8, Emergency
+3, 0, 4, 9, Emergency
+4, 0, 4, 9, Emergency
+5, 1, 4, 9, Cancer
+6, 1, 5, 9, Cancer
+7, 2, 5, 9, Cancer
+8, 2, 5, 9, Cancer
+9, 0, 3, 10, MRI
+10, 0, 3, 10, MRI
+11, 0, 3, 10, MRI

@@ -1,0 +1,14 @@
+id, role, department
+0, Doctor, Cancer
+1, Doctor, Emergency
+2, Doctor, MRI
+3, Nurse, MRI
+4, Nurse, MRI
+5, Nurse, Emergency
+6, Patient, -
+7, Patient, -
+8, Patient, -
+9, Patient, -
+10, Patient, -
+11, Government, -
+
