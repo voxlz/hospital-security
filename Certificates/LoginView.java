@@ -55,9 +55,9 @@ public class LoginView {
     in.close();
   }
 
-  private ArrayList<User> patients(SSLSocket socket, Role role) {
+  private ArrayList<User> patients(PrintWriter out, BufferedReader in, Role role) {
     //via connectionen med serven vill jag skicka ett request om att få info över patienter.
-
+    return null;
   }
 
   private static boolean authUserOnServer (PrintWriter out, BufferedReader in, String username, String password) throws IOException {
