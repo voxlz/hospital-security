@@ -1,4 +1,3 @@
-
 public class User {
 
 	private final UserType userType;

@@ -1,5 +1,3 @@
-package project2;
-
-public class JournalBuilder.java{
+public class JournalBuilder {
 	
 }
