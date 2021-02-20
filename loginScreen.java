@@ -10,7 +10,6 @@ public class loginScreen extends Application {
 
     @Override
     public void start(Stage stage) {
-
         initUI(stage);
     }
 
