@@ -18,26 +18,13 @@ public class Journal {
 		if (user.getUserType() == UserType.GOVERNMENT) {
 			return true;
 		}
-<<<<<<< HEAD
 		return checkDivision(user);
-	}
-	
-	public boolean checkDivision(User user){
-		if(user.getDivision() == null){
-			return false;
-		} else if(user.getDivision().equals(division)){
-=======
-		if (checkDivision(user)) {
-			return checkDivision(user);
-		}
-		return false;
 	}
 
 	public boolean checkDivision(User user) {
 		if (user.getDivision() == null) {
 			return false;
 		} else if (user.getDivision().equals(division)) {
->>>>>>> 4b54150d5715aeadb13e7904ee7ceedaac3077c2
 			return true;
 		}
 		return false;
