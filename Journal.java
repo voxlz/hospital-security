@@ -1,5 +1,3 @@
-package project2;
-
 public class Journal {
 	private User doctor;
 	private User nurse;
