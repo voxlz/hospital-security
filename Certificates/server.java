@@ -62,7 +62,9 @@ public class server implements Runnable {
         (new Thread(this)).start();
     } // calls run()
 
-    public static void main(String args[]) {
+    public static void main(String args2[]) {
+        String[] args = { "9876" };
+
         System.out.println("\nServer Started\n");
         int port = -1;
         if (args.length >= 1) {

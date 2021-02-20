@@ -23,10 +23,12 @@ import javax.security.cert.X509Certificate;
  * the firewall by following SSLSocketClientWithTunneling.java.
  */
 public class client {
-
-    public static void main(String[] args) throws Exception {
+    //
+    public static void main(String[] args2) throws Exception {
+        String[] args = { "localhost", "9876" };
         String host = null;
         int port = -1;
+
         for (int i = 0; i < args.length; i++) {
             System.out.println("args[" + i + "] = " + args[i]);
         }
@@ -85,30 +87,38 @@ public class client {
             System.out.println("socket after handshake:\n" + socket + "\n");
             System.out.println("secure connection established\n\n");
 
-            BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String msg;
-            for (;;) {
-                System.out.print(">");
-                msg = read.readLine();
-                if (msg.equalsIgnoreCase("quit")) {
-                    break;
-                }
-                System.out.print("sending '" + msg + "' to server...");
-                out.println(msg);
-                out.flush();
-                System.out.println("done");
+            // Previous behavior
+            // echoMsg(socket);
 
-                System.out.println("received '" + in.readLine() + "' from server\n");
-            }
-            in.close();
-            out.close();
-            read.close();
+            LoginView.login(socket);
+
             socket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void echoMsg(SSLSocket socket) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String msg;
+        for (;;) {
+            System.out.print(">");
+            msg = read.readLine();
+            if (msg.equalsIgnoreCase("quit")) {
+                break;
+            }
+            System.out.print("sending '" + msg + "' to server...");
+            out.println(msg);
+            out.flush();
+            System.out.println("done");
+
+            System.out.println("received '" + in.readLine() + "' from server\n");
+        }
+        in.close();
+        out.close();
+        read.close();
     }
 
 }

@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
+import javax.net.ssl.SSLSocket;
+
 public class LoginView {
-  public static void main(String[] args) {
+  public static void login(SSLSocket socket) {
     System.out.println("--------------------");
     System.out.println("Welcome to this hospital Security");
     System.out.println("--------------------");
