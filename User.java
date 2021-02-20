@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
 	private final UserType userType;
 	private final String id;
 	private String division;
-	private list<> patients;
+	private List<User> patients;
 
 	public User(String id, UserType userType) {
 		patients = new ArrayList<User>();
