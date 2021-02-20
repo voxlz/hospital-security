@@ -1,5 +1,5 @@
 public class Journal {
-	
+
 	private static int idCounter = 0;
 	private User doctor;
 	private User nurse;
@@ -16,14 +16,14 @@ public class Journal {
 		this.division = division;
 	}
 
-	public boolean canRead(User user) {
-		if (user.equals(doctor) || user.equals(nurse) || user.equals(patient)) {
+	public boolean canRead(User currentUser) {
+		if (currentUser.equals(doctor) || currentUser.equals(nurse) || currentUser.equals(patient)) {
 			return true;
 		}
-		if (user.getUserType() == UserType.GOVERNMENT) {
+		if (currentUser.getUserType() == UserType.GOVERNMENT) {
 			return true;
 		}
-		return checkDivision(user);
+		return checkDivision(currentUser);
 	}
 
 	public boolean checkDivision(User user) {
@@ -41,14 +41,14 @@ public class Journal {
 		}
 		return false;
 	}
-	
+
 	public boolean canDelete(User user) {
-		if(user.getUserType() == UserType.GOVERNMENT){
+		if (user.getUserType() == UserType.GOVERNMENT) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

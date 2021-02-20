@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-	
+
 	private static int idCounter = 0;
 	private final UserType userType;
 	private final int id;
@@ -53,9 +53,9 @@ public class User {
 
 		return (id == u.getId());
 	}
-	
-	public void addPatient(User user){
-		if(userType == UserType.DOCTOR){
+
+	public void addPatient(User user) {
+		if (userType == UserType.DOCTOR) {
 			patients.add(user);
 		}
 	}
