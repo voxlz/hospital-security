@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginView {
 	public static void main(String[] args) {
@@ -7,13 +9,15 @@ public class LoginView {
 		System.out.println("--------------------");
 		System.out.println("");
 		
-		validateUser();
+		User currentUser = validateUser();
 		
-		printOptions();
+		List<Journal> journals = printAvailableJournals();
+		
+		printOptions(currentUser, journals);
     
 	}
 
-    private static void validateUser(){
+    private static User validateUser(){
 		Scanner in = new Scanner(System.in);
 
 		boolean isValidUser = false;
@@ -35,38 +39,39 @@ public class LoginView {
 				System.out.println("");
 			}
 		}
-
+		User currentUser;
+		//set current user
 		in.close();
+		return currentUser;
 	}
 	
-	private static void printOptions(){
+	private static void printOptions(User currentUser, List<Journals> journals){
 		Scanner in = new Scanner(System.in);
+		
 		
 		System.out.println("");
 		System.out.println("Please use one of the following options: ");
-		System.out.println("read");
-		System.out.println("write");
-		System.out.println("delete");
-		System.out.println("create");
+		System.out.println("read \"id\"");
+		System.out.println("write \"id\"");
+		System.out.println("delete \"id\"");
+		System.out.println("create \"id\"");
 		System.out.println("");
 		
 		String command = in.nextLine();
+		String[] commands = command.split(" ");
 		
-		switch (command){
+		switch (commands[0]){
 			case "read":
-				printAvailableJournals();
+				if(journals.get(commands[1])
 				
 				break;
 			case "write":
-				printAvailableJournals();
 				
 				break;
 			case "delete":
-				printAvailableJournals();
 				
 				break;
 			case "create":
-				printAvailableJournals();
 				
 				break;
 			default:
@@ -74,10 +79,19 @@ public class LoginView {
 				System.out.println("Please use one of the correct options!");
 				System.out.println("");
 		}
+		
+		in.close();
 	}
 	
-	private static void printAvailableJournals(){
+	private Journal getJournal(List<Journal> journals, String journalId){
+		for (Journal j : journals){
+			if(j.getId
+		}
+	}
+	
+	private static ArrayList<Journal> printAvailableJournals(){
 		//do stuff
+		return null;
 	}
 	private static boolean authUserOnServer(String username, String password) {
 		return false;
