@@ -1,27 +1,40 @@
+package Certificates;
+
+import Authentication.Role;
+import Authentication.User;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.net.ssl.SSLSocket;
 
 public class LoginView {
-  public static void login(SSLSocket socket) {
+  public static void login(SSLSocket socket) throws IOException {
     System.out.println("--------------------");
     System.out.println("Welcome to this hospital Security");
     System.out.println("--------------------");
     System.out.println("");
 
-    Scanner in = new Scanner(System.in);
+    Scanner read = new Scanner(System.in);
 
     boolean isValidUser = false;
+
+    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+
     while (!isValidUser) {
       System.out.print("Username: ");
-      String username = in.nextLine();
+      String username = read.nextLine();
       System.out.print("Password: ");
       String password = String.valueOf(System.console().readPassword());
 
-      isValidUser = authUserOnServer(socket, username, password);
+      isValidUser = authUserOnServer(out, in, username, password);
 
       if (!isValidUser) {
         System.out.println("");
@@ -31,16 +44,23 @@ public class LoginView {
         System.out.println("");
         System.out.println("Authentication success! Logged in as " + username + "");
         System.out.println("");
+        //request access too information- get a journal
+        //display all patients it has reed access to. Must se what role is has.
+        //tänk vi är läkare vill ha info om patienter. be server om den infon
+
+
       }
     }
 
     in.close();
   }
 
-  private static boolean authUserOnServer(SSLSocket socket, String username, String password) {
-    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+  private ArrayList<User> patients(SSLSocket socket, Role role) {
+    //via connectionen med serven vill jag skicka ett request om att få info över patienter.
 
+  }
+
+  private static boolean authUserOnServer (PrintWriter out, BufferedReader in, String username, String password) throws IOException {
     out.write("l:" + username + ',' + password);
     String res = in.readLine();
 
