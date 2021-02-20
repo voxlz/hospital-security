@@ -20,16 +20,13 @@ public class Journal{
 		if(user.getUserType() == UserType.GOVERNMENT){
 			return true;
 		}
-		if(checkDivision){
-			return checkDivision;
-		}
-		return false;
+		return checkDivision(user);
 	}
 	
 	public boolean checkDivision(User user){
-		if(user.getDivision == null){
+		if(user.getDivision() == null){
 			return false;
-		} else if(user.getDivision.equals(division)){
+		} else if(user.getDivision().equals(division)){
 			return true;
 		}
 		return false;
