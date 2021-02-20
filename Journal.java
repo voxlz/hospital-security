@@ -36,4 +36,11 @@ public class Journal {
 		}
 		return false;
 	}
+	
+	public boolean canDelete(User user) {
+		if(user.getUserType() == UserType.GOVERNMENT){
+			return true;
+		}
+		return false;
+	}
 }

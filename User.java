@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 
 	private final UserType userType;
 	private final String id;
 	private String division;
+	private List<User> patients;
 
 	public User(String id, UserType userType) {
+		patients = new ArrayList<User>();
 		this.id = id;
 		this.userType = userType;
 	}
@@ -43,5 +48,11 @@ public class User {
 		User u = (User) o;
 
 		return id.equals(u.getId());
+	}
+	
+	public void addPatient(User user){
+		if(userType == UserType.DOCTOR){
+			patients.add(user);
+		}
 	}
 }
