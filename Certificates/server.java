@@ -31,22 +31,8 @@ public class server implements Runnable {
             System.out.println("serial number: " + cerialN);
             System.out.println(numConnectedClients + " concurrent connection(s)\n");
 
-            PrintWriter out = null;
-            BufferedReader in = null;
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            // handleIncommingMessagesFromClient(socket);
 
-            String clientMsg = null;
-            while ((clientMsg = in.readLine()) != null) {
-                String rev = new StringBuilder(clientMsg).reverse().toString();
-                System.out.println("received '" + clientMsg + "' from client");
-                System.out.print("sending '" + rev + "' to client...");
-                out.println(rev);
-                out.flush();
-                System.out.println("done\n");
-            }
-            in.close();
-            out.close();
             socket.close();
             numConnectedClients--;
             System.out.println("client disconnected");
@@ -56,6 +42,52 @@ public class server implements Runnable {
             e.printStackTrace();
             return;
         }
+    }
+
+    private void handleIncomingRequests(SSLSocket socket) throws IOException {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String clientMsg = null;
+        while ((clientMsg = in.readLine()) != null) {
+
+            if (clientMsg.startsWith("l:")) {
+                String[] loginInfo = clientMsg.substring(2).split(",");
+
+                System.out.println("received '" + loginInfo[0] + loginInfo[1] + "' from client");
+                if (loginInfo[0] == "Torben")
+                    out.println("ok");
+                else
+                    out.println("login Failed");
+
+                out.flush();
+                System.out.println("done\n");
+            }
+
+        }
+        in.close();
+        out.close();
+    }
+
+    private void handleIncommingMessagesFromClient(SSLSocket socket) throws IOException {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String clientMsg = null;
+        while ((clientMsg = in.readLine()) != null) {
+            String rev = new StringBuilder(clientMsg).reverse().toString();
+            System.out.println("received '" + clientMsg + "' from client");
+            System.out.print("sending '" + rev + "' to client...");
+            out.println(rev);
+            out.flush();
+            System.out.println("done\n");
+        }
+        in.close();
+        out.close();
     }
 
     private void newListener() {
