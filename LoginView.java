@@ -39,13 +39,13 @@ public class LoginView {
 				System.out.println("");
 			}
 		}
-		User currentUser;
+		User currentUser = new User(UserType.DOCTOR);
 		//set current user
 		in.close();
 		return currentUser;
 	}
 	
-	private static void printOptions(User currentUser, List<Journals> journals){
+	private static void printOptions(User currentUser, List<Journal> journals){
 		Scanner in = new Scanner(System.in);
 		
 		
@@ -62,7 +62,11 @@ public class LoginView {
 		
 		switch (commands[0]){
 			case "read":
-				if(journals.get(commands[1])
+				if(getJournal(journals, Integer.parseInt(commands[1])).canRead(currentUser)){
+					System.out.println("");
+					System.out.println("Access granted");
+					System.out.println("");
+				}
 				
 				break;
 			case "write":
@@ -83,10 +87,13 @@ public class LoginView {
 		in.close();
 	}
 	
-	private Journal getJournal(List<Journal> journals, String journalId){
+	private static Journal getJournal(List<Journal> journals, int journalId){
 		for (Journal j : journals){
-			if(j.getId
+			if(j.getId() == journalId){
+				return j;
+			}
 		}
+		return null;
 	}
 	
 	private static ArrayList<Journal> printAvailableJournals(){
