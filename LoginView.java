@@ -16,7 +16,7 @@ public class LoginView {
       System.out.print("Password: ");
       String password = String.valueOf(System.console().readPassword());
 
-      isValidUser = authenticateUser(username, password);
+      isValidUser = authUserOnServer(username, password);
 
       if (!isValidUser) {
         System.out.println("");
@@ -32,7 +32,7 @@ public class LoginView {
     in.close();
   }
 
-  private static boolean authenticateUser(String username, String password) {
+  private static boolean authUserOnServer(String username, String password) {
     return false;
   }
 }

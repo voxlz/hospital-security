@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch client",
+      "request": "launch",
+      "mainClass": "Certificates.client",
+      "projectName": "hospital-security_f39edde8"
+    },
+    {
+      "type": "java",
       "name": "Launch LoginView",
       "request": "launch",
       "mainClass": "LoginView",
