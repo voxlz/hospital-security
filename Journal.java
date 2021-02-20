@@ -31,7 +31,7 @@ public class Journal {
 	}
 
 	public boolean canWrite(User user) {
-		if (user.equals(doctor)) {
+		if (user.equals(doctor) || user.equals(nurse)) {
 			return true;
 		}
 		return false;
