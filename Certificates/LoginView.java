@@ -41,7 +41,15 @@ public class LoginView {
     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+    out.write("l:" + username + ',' + password);
+    String res = in.readLine();
+
     out.close();
     in.close();
+
+    if (res == "ok")
+      return true;
+    else
+      return false;
   }
 }
