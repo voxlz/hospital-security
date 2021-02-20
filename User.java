@@ -2,25 +2,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-
+	
+	private static int idCounter = 0;
 	private final UserType userType;
-	private final String id;
+	private final int id;
 	private String division;
 	private List<User> patients;
 
-	public User(String id, UserType userType) {
+	public User(UserType userType) {
 		patients = new ArrayList<User>();
-		this.id = id;
+		idCounter++;
+		this.id = idCounter;
 		this.userType = userType;
 	}
 
-	public User(String id, UserType userType, String division) {
-		this.id = id;
+	public User(UserType userType, String division) {
+		patients = new ArrayList<User>();
+		idCounter++;
+		this.id = idCounter;
 		this.userType = userType;
 		this.division = division;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -47,7 +51,7 @@ public class User {
 
 		User u = (User) o;
 
-		return id.equals(u.getId());
+		return (id == u.getId());
 	}
 	
 	public void addPatient(User user){
