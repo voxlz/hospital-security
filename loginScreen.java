@@ -1,18 +1,4 @@
 import javafx.application.Application;
-import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.*;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -33,7 +19,7 @@ public class loginScreen extends Application {
         FlowPane root = new FlowPane(Orientation.HORIZONTAL, 5, 5);
         root.setPadding(new Insets(5));
 
-        for (int i=1; i<=20; i++) {
+        for (int i = 1; i <= 20; i++) {
             root.getChildren().add(new Button(String.valueOf(i)));
         }
 
