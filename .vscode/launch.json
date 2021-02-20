@@ -1,0 +1,32 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch LoginView",
+      "request": "launch",
+      "mainClass": "LoginView",
+      "projectName": "hospital-security_f39edde8"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "hospital-security_f39edde8"
+    },
+    {
+      "type": "java",
+      "name": "Launch loginScreen",
+      "request": "launch",
+      "mainClass": "loginScreen",
+      "projectName": "hospital-security_f39edde8"
+    },
+    {
+      "type": "java",
+      "name": "Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}",
+      "vmArgs": "--module-path D:/Programming/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml"
+    }
+  ]
+}
