@@ -39,7 +39,7 @@ public class LoginView {
 				System.out.println("");
 			}
 		}
-		User currentUser = new User(UserType.DOCTOR);
+		User currentUser = new User(UserType.DOCTOR); //This is just so it compiles
 		//set current user
 		in.close();
 		return currentUser;
@@ -70,10 +70,18 @@ public class LoginView {
 				
 				break;
 			case "write":
-				
+				if(getJournal(journals, Integer.parseInt(commands[1])).canWrite(currentUser)){
+					System.out.println("");
+					System.out.println("Access granted");
+					System.out.println("");
+				}
 				break;
 			case "delete":
-				
+				if(getJournal(journals, Integer.parseInt(commands[1])).canDelete(currentUser)){
+					System.out.println("");
+					System.out.println("Access granted");
+					System.out.println("");
+				}
 				break;
 			case "create":
 				
