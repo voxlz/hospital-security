@@ -1,10 +1,7 @@
 
 import Authentication.Role;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,8 +28,7 @@ public class LoginView {
 			username = read.nextLine();
 
 			System.out.print("Password: ");
-			String password = "";
-			password = String.valueOf(read.nextLine());
+			String password = String.valueOf(System.console().readLine());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
@@ -44,7 +40,6 @@ public class LoginView {
 				System.out.println("");
 				System.out.println("Authentication success! Logged in as " + username + "");
 				System.out.println("");
-				// request access too information- get a journal
 				// display all patients it has reed access to. Must se what role is has.
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
 
