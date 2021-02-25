@@ -17,31 +17,13 @@ public class server implements Runnable {
     public void run() {
         try {
             SSLSocket socket = (SSLSocket) serverSocket.accept();
-
             newListener();
-            SSLSession session = socket.getSession();
-            X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
-            String subject = cert.getSubjectDN().getName();
-            String issuer = cert.getIssuerDN().getName();
-            String cerialN = cert.getSerialNumber().toString();
+            printDebug(socket);
 
-            numConnectedClients++;
-            System.out.println("client connected");
-            System.out.println("client name (cert subject DN field): " + subject);
-            System.out.println("issuer name: " + issuer);
-            System.out.println("serial number: " + cerialN);
-            System.out.println(numConnectedClients + " concurrent connection(s)\n");
+            // Handles incoming client messages.
+            handleMessages(socket);
 
-            // handleIncomingMessagesFromClient(socket);
-
-            handleIncomingRequests(socket);
-
-            System.out.println(socket.getSupportedProtocols() + ":" + socket.getApplicationProtocol());
-
-            socket.close();
-            numConnectedClients--;
-            System.out.println("client disconnected");
-            System.out.println(numConnectedClients + " concurrent connection(s)\n");
+            closeConnection(socket);
         } catch (IOException e) {
             System.out.println("Client died: " + e.getMessage());
             e.printStackTrace();
@@ -49,7 +31,29 @@ public class server implements Runnable {
         }
     }
 
-    private void handleIncomingRequests(SSLSocket socket) throws IOException {
+    private void closeConnection(SSLSocket socket) throws IOException {
+        socket.close();
+        numConnectedClients--;
+        System.out.println("client disconnected");
+        System.out.println(numConnectedClients + " concurrent connection(s)\n");
+    }
+
+    private void printDebug(SSLSocket socket) throws SSLPeerUnverifiedException {
+        SSLSession session = socket.getSession();
+        X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
+        String subject = cert.getSubjectDN().getName();
+        String issuer = cert.getIssuerDN().getName();
+        String cerialN = cert.getSerialNumber().toString();
+
+        numConnectedClients++;
+        System.out.println("client connected");
+        System.out.println("client name (cert subject DN field): " + subject);
+        System.out.println("issuer name: " + issuer);
+        System.out.println("serial number: " + cerialN);
+        System.out.println(numConnectedClients + " concurrent connection(s)\n");
+    }
+
+    private void handleMessages(SSLSocket socket) throws IOException {
         PrintWriter out = null;
         BufferedReader in = null;
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -75,28 +79,21 @@ public class server implements Runnable {
         }
         in.close();
         out.close();
-
         System.out.println("2");
     }
 
-    private void handleIncommingMessagesFromClient(SSLSocket socket) throws IOException {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-        String clientMsg = null;
-        while ((clientMsg = in.readLine()) != null) {
-            String rev = new StringBuilder(clientMsg).reverse().toString();
-            System.out.println("received '" + clientMsg + "' from client");
-            System.out.print("sending '" + rev + "' to client...");
-            out.println(rev);
-            out.flush();
-            System.out.println("done\n");
-        }
-        in.close();
-        out.close();
-    }
+    /*
+     * // THE OLD MESSAGE HANDLING CODE private void oldHandleMessages(SSLSocket
+     * socket) throws IOException { PrintWriter out = null; BufferedReader in =
+     * null; out = new PrintWriter(socket.getOutputStream(), true); in = new
+     * BufferedReader(new InputStreamReader(socket.getInputStream()));
+     * 
+     * String clientMsg = null; while ((clientMsg = in.readLine()) != null) { String
+     * rev = new StringBuilder(clientMsg).reverse().toString();
+     * System.out.println("received '" + clientMsg + "' from client");
+     * System.out.print("sending '" + rev + "' to client..."); out.println(rev);
+     * out.flush(); System.out.println("done\n"); } in.close(); out.close(); }
+     */
 
     private void newListener() {
         (new Thread(this)).start();
@@ -114,7 +111,7 @@ public class server implements Runnable {
         try {
             ServerSocketFactory ssf = getServerSocketFactory(type);
             ServerSocket ss = ssf.createServerSocket(port);
-            ss.supportedOptions()
+            ss.supportedOptions();
             ((SSLServerSocket) ss).setNeedClientAuth(true); // enables client authentication
             new server(ss);
         } catch (IOException e) {
