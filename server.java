@@ -88,6 +88,7 @@ public class server implements Runnable {
                 // list.forEach(e -> {
                 // System.out.println(e);
                 // });
+
                 out.println(response);
 
                 out.flush();
