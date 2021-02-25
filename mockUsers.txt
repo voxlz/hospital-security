@@ -6,7 +6,7 @@ id, role, department, user, password
 4, Nurse, MRI, gustav, lösenord1
 5, Nurse, Emergency, 2cool, lösenord2
 6, Patient, -, boop, lösenord
-7, Patient, -, harCancer, lösen0rd
+7, Patient, Cancer, harCancer, lösen0rd
 8, Patient, -, harInteCancer, lösen00rd
 9, Patient, -, aaa, lösen000rd
 10, Patient, -, bbb, l0sen0rd
