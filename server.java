@@ -17,6 +17,7 @@ public class server implements Runnable {
     public void run() {
         try {
             SSLSocket socket = (SSLSocket) serverSocket.accept();
+
             newListener();
             SSLSession session = socket.getSession();
             X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
@@ -34,6 +35,8 @@ public class server implements Runnable {
             // handleIncomingMessagesFromClient(socket);
 
             handleIncomingRequests(socket);
+
+            System.out.println(socket.getSupportedProtocols() + ":" + socket.getApplicationProtocol());
 
             socket.close();
             numConnectedClients--;
@@ -111,6 +114,7 @@ public class server implements Runnable {
         try {
             ServerSocketFactory ssf = getServerSocketFactory(type);
             ServerSocket ss = ssf.createServerSocket(port);
+            ss.supportedOptions()
             ((SSLServerSocket) ss).setNeedClientAuth(true); // enables client authentication
             new server(ss);
         } catch (IOException e) {
