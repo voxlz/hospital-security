@@ -114,7 +114,7 @@ public class server implements Runnable {
         try {
             ServerSocketFactory ssf = getServerSocketFactory(type);
             ServerSocket ss = ssf.createServerSocket(port);
-            ss.supportedOptions()
+            ss.supportedOptions();
             ((SSLServerSocket) ss).setNeedClientAuth(true); // enables client authentication
             new server(ss);
         } catch (IOException e) {
