@@ -1,14 +1,14 @@
-id, role, department
-0, Doctor, Cancer
-1, Doctor, Emergency
-2, Doctor, MRI
-3, Nurse, MRI
-4, Nurse, MRI
-5, Nurse, Emergency
-6, Patient, -
-7, Patient, -
-8, Patient, -
-9, Patient, -
-10, Patient, -
-11, Government, -
+id, role, department, user, password
+0, Doctor, Cancer, per, lösenord
+1, Doctor, Emergency, per2, lösenord123
+2, Doctor, MRI, anita, losänord
+3, Nurse, MRI, pelle, lösenord
+4, Nurse, MRI, gustav, lösenord1
+5, Nurse, Emergency, 2cool, lösenord2
+6, Patient, -, boop, lösenord
+7, Patient, -, harCancer, lösen0rd
+8, Patient, -, harInteCancer, lösen00rd
+9, Patient, -, aaa, lösen000rd
+10, Patient, -, bbb, l0sen0rd
+11, Government, -, iluminati, lasenard
 
