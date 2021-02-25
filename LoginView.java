@@ -27,9 +27,12 @@ public class LoginView {
 
 		while (!isValidUser) {
 			System.out.print("Username: ");
-			String username = read.nextLine();
+			String username = "";
+			username = read.nextLine();
+
 			System.out.print("Password: ");
-			String password = String.valueOf(System.console().readPassword());
+			String password = "";
+			password = String.valueOf(read.nextLine());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
