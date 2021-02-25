@@ -45,7 +45,7 @@ public class LoginView {
 
 			}
 		}
-
+		out.close();
 		in.close();
 	}
 
@@ -64,9 +64,6 @@ public class LoginView {
 		String res = in.readLine();
 
 		System.out.println("server res: " + res);
-
-		out.close();
-		in.close();
 
 		if (res.equals("ok"))
 			return true;

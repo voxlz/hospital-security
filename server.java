@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.security.KeyStore;
+import java.util.List;
+
 import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
@@ -65,35 +67,58 @@ public class server implements Runnable {
 
             if (clientMsg.startsWith("l:")) {
                 String[] loginInfo = clientMsg.substring(2).split(",");
+                String password = loginInfo[1];
+                String user = loginInfo[0];
 
-                System.out.println("received '" + loginInfo[0] + loginInfo[1] + "' from client");
-                if (loginInfo[0].equals("Torben"))
-                    out.println("ok");
-                else
-                    out.println("login Failed");
+                System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
+
+                // Find matching user from "database"
+                List<String> list = WriterReader.readFile("mockUsers.txt");
+                String response = list.stream().filter(str -> {
+                    if (str.isEmpty())
+                        return false;
+
+                    String[] values = str.split(", ");
+                    System.out.println(values);
+
+                    return values[3].equals(user) && values[4].equals(password);
+                }).map(str -> "ok").findFirst().orElse("Login Failed: Username or Password didn't match");
+
+                // Debug
+                // list.forEach(e -> {
+                // System.out.println(e);
+                // });
+                out.println(response);
 
                 out.flush();
-                System.out.println("done\n");
+                System.out.println("response sent\n");
             }
-
         }
+
         in.close();
         out.close();
         System.out.println("2");
     }
 
-    /*
-     * // THE OLD MESSAGE HANDLING CODE private void oldHandleMessages(SSLSocket
-     * socket) throws IOException { PrintWriter out = null; BufferedReader in =
-     * null; out = new PrintWriter(socket.getOutputStream(), true); in = new
-     * BufferedReader(new InputStreamReader(socket.getInputStream()));
-     * 
-     * String clientMsg = null; while ((clientMsg = in.readLine()) != null) { String
-     * rev = new StringBuilder(clientMsg).reverse().toString();
-     * System.out.println("received '" + clientMsg + "' from client");
-     * System.out.print("sending '" + rev + "' to client..."); out.println(rev);
-     * out.flush(); System.out.println("done\n"); } in.close(); out.close(); }
-     */
+    // THE OLD MESSAGE HANDLING CODE
+    private void oldHandleMessages(SSLSocket socket) throws IOException {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String clientMsg = null;
+        while ((clientMsg = in.readLine()) != null) {
+            String rev = new StringBuilder(clientMsg).reverse().toString();
+            System.out.println("received '" + clientMsg + "' from client");
+            System.out.print("sending '" + rev + "' to client...");
+            out.println(rev);
+            out.flush();
+            System.out.println("done\n");
+        }
+        in.close();
+        out.close();
+    }
 
     private void newListener() {
         (new Thread(this)).start();
