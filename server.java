@@ -94,6 +94,28 @@ public class server implements Runnable {
                 out.flush();
                 System.out.println("response sent\n");
             }
+
+            else if(clientMsg.startsWith("c:")) {
+                //then we have a comand
+                String comand = clientMsg.split(",")[1];
+                String response;
+                switch (comand) {
+                    case "reed":
+
+                        break;
+
+                    case "write":
+
+                        break;
+
+                    case "delete":
+                        break;
+
+                    default:
+                        response = "not a comand";
+                        out.println(response);
+                }
+            }
         }
 
         in.close();

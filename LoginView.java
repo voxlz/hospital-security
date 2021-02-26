@@ -10,6 +10,7 @@ import javax.net.ssl.SSLSocket;
 
 public class LoginView {
 	public static void login(SSLSocket socket) throws IOException {
+		String username = "";
 		System.out.println("--------------------");
 		System.out.println("Welcome to this hospital Security");
 		System.out.println("--------------------");
@@ -24,11 +25,12 @@ public class LoginView {
 
 		while (!isValidUser) {
 			System.out.print("Username: ");
-			String username = "";
+			//String username = "";
 			username = read.nextLine();
 
 			System.out.print("Password: ");
-			String password = String.valueOf(System.console().readPassword());
+			String password = read.nextLine();
+			//String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
@@ -42,9 +44,13 @@ public class LoginView {
 				System.out.println("");
 				// display all patients it has reed access to. Must se what role is has.
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
-
 			}
 		}
+
+		String com = read.nextLine();
+		userComand(out, in, username, com);
+
+
 		out.close();
 		in.close();
 	}
@@ -70,6 +76,33 @@ public class LoginView {
 		else
 			return false;
 	}
+
+	private static void userComand(PrintWriter out, BufferedReader in, String username, String comand) {
+		String msg = "c:" + username + "," + comand;
+		//want to check that it is a comand
+
+		out.print(msg);
+		out.flush();
+
+		String[] comandline = msg.split(",");
+		comand = comandline[1];
+		System.out.println(comand);
+
+		//out.println(msg);
+		//out.flush();
+/*
+		String res = in.readLine();
+
+		System.out.println("server res: " + res);
+
+		if (res.equals("ok"))
+			return true;
+		else
+			return false;
+
+ */
+	}
+
 
 	private static void printOptions(User currentUser, List<Journal> journals) {
 		Scanner in = new Scanner(System.in);
