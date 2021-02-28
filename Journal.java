@@ -1,13 +1,13 @@
 public class Journal {
 
 	private static int idCounter = 0;
-	private User doctor;
-	private User nurse;
-	private User patient;
+	private int doctor;
+	private int nurse;
+	private int patient;
 	private final int id;
 	private String division;
 
-	public Journal(User doctor, User nurse, User patient, String division) {
+	public Journal(int doctor, int nurse, int patient, String division) {
 		idCounter++;
 		id = idCounter;
 		this.doctor = doctor;
@@ -51,5 +51,10 @@ public class Journal {
 
 	public int getId() {
 		return id;
+	}
+	
+	@Override
+	public String toString(){
+		return (doctor + "," + nurse + "," + patient + "," + division);
 	}
 }
