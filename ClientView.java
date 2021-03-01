@@ -2,6 +2,7 @@
 import Authentication.Role;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,6 +27,8 @@ public class ClientView {
 		System.out.println("--------------------");
 		System.out.println("");
 
+		Scanner read = new Scanner(System.in, Charset.forName("UTF-8"));
+
 		boolean isValidUser = false;
 
 
@@ -48,6 +51,7 @@ public class ClientView {
 				System.out.println("");
 				System.out.println("Authentication success! Logged in as " + username + "");
 				System.out.println("");
+
 				// display all patients it has reed access to. Must se what role is has.
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
 			}
@@ -75,12 +79,6 @@ public class ClientView {
 		out.flush();
 	}
 
-	private ArrayList<User> patients(PrintWriter out, BufferedReader in, Role role) {
-		// via connectionen med serven vill jag skicka ett request om att få info över
-		// patienter.
-		return null;
-	}
-
 	private static boolean authUserOnServer(PrintWriter out, BufferedReader in, String username, String password)
 			throws IOException {
 		String msg = "l:" + username + ',' + password;
@@ -93,17 +91,8 @@ public class ClientView {
 
 		return true;
 /*
-			StringBuilder content = new StringBuilder();
-			String line;
-
-			while ((line = in.readLine()) != null) {
-				content.append(line);
-				content.append(System.lineSeparator());
-			}
-
-			System.out.println("You have access to paitents with id number: " + content.toString());
+		if (res.equals("ok"))
 			return true;
-		}
 		else
 			return false;
 

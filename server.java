@@ -100,20 +100,6 @@ public class server implements Runnable {
                 if (userStr.isPresent()) {
                     userInfo = userStr.get().split(", ");
                     user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
-
-                    ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                    StringBuilder strb = new StringBuilder("");
-
-                    for(Journal jour: journals){
-                        //canRead tar in en User så måste ha det
-                        if(jour.canRead(user)){
-                            int j = jour.getPatient();
-                            strb.append(j);
-                            strb.append(", ");
-                        }
-                    }
-                    //har en lista med ints jag vill skicka tillbaka till clienten
-                    response = strb.toString();
                 }
 
                 // Debug
@@ -121,16 +107,29 @@ public class server implements Runnable {
                     System.out.println(e);
                 });
 
-                //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
+                    ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
+                    StringBuilder strb = new StringBuilder("");
 
+                if (user != null) { // <- la till detta
+                    for (Journal jour : journals) {
+                        // canRead tar in en User så måste ha det
+                        if (jour.canRead(user)) {
+                            int j = jour.getPatient();
+                            strb.append(j);
+                        }
+                    }
+                } else {
+                    strb.append(""); // <--- Detta måste ändras, du vill skicka något som du kan hantera
+                }
+                // har en lista med ints jag vill skicka tillbaka till clienten
+                response = strb.toString();
                 out.println(response);
                 out.flush();
                 System.out.println("response sent\n");
-            }
-            else if(clientMsg.startsWith("c:")) {
-                //then we have a comand
-                String comand = clientMsg.split(",")[1];
-                switch (comand) {
+            } else if (clientMsg.startsWith("c:")) {
+                // then we have a command
+                String command = clientMsg.split(",")[1];
+                switch (command) {
                     case "reed":
                         //gör typ som innan
                         break;
