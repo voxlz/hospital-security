@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.*;
@@ -62,6 +63,7 @@ public class server implements Runnable {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         String clientMsg = null;
+        List<String> list = WriterReader.readFile("mockUsers.txt");
         while ((clientMsg = in.readLine()) != null) {
             System.out.println("Loop");
 
@@ -73,7 +75,6 @@ public class server implements Runnable {
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
 
                 // Find matching user from "database"
-                List<String> list = WriterReader.readFile("mockUsers.txt");
                 String response = list.stream().filter(str -> {
                     if (str.isEmpty())
                         return false;
@@ -90,6 +91,13 @@ public class server implements Runnable {
                 // });
 
                 out.println(response);
+                ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
+
+                for(Journal jour: journals){
+                    //canRead tar in en User så måste ha det
+                }
+
+
 
                 out.flush();
                 System.out.println("response sent\n");
@@ -101,7 +109,7 @@ public class server implements Runnable {
                 String response;
                 switch (comand) {
                     case "reed":
-
+                        //gör typ som innan
                         break;
 
                     case "write":
