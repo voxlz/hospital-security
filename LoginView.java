@@ -10,6 +10,7 @@ import javax.net.ssl.SSLSocket;
 
 public class LoginView {
 	public static void login(SSLSocket socket) throws IOException {
+		String username = "";
 		System.out.println("--------------------");
 		System.out.println("Welcome to this hospital Security");
 		System.out.println("--------------------");
@@ -42,6 +43,7 @@ public class LoginView {
 				System.out.println("");
 				System.out.println("Authentication success! Logged in as " + username + "");
 				System.out.println("");
+
 				// display all patients it has reed access to. Must se what role is has.
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
 			}
@@ -81,16 +83,16 @@ public class LoginView {
  */
 	}
 
-	private static void userComand(PrintWriter out, BufferedReader in, String username, String comand) {
-		String msg = "c:" + username + "," + comand;
-		//want to check that it is a comand
+	private static void userCommand(PrintWriter out, BufferedReader in, String username, String command) {
+		String msg = "c:" + username + "," + command;
+		// want to check that it is a command
 
 		out.print(msg);
 		out.flush();
 
-		String[] comandline = msg.split(",");
-		comand = comandline[1];
-		System.out.println(comand);
+		String[] commandline = msg.split(",");
+		command = commandline[1];
+		System.out.println(command);
 		out.println(msg);
 		out.flush();
 
