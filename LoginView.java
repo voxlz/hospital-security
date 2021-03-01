@@ -23,6 +23,8 @@ public class LoginView {
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+
+
 		while (!isValidUser) {
 			System.out.print("Username: ");
 			username = read.nextLine();
@@ -80,19 +82,29 @@ public class LoginView {
 		String msg = "l:" + username + ',' + password;
 		out.println(msg);
 		out.flush();
-
+		System.out.println("kommer vi hit?");
 		String res = in.readLine();
 
 		System.out.println("server res: " + res);
 
-		return true;
-/*
-		if (res.equals("ok"))
+		if (res.equals("ok")){
+			StringBuilder content = new StringBuilder();
+			String line;
+
+			while ((line = in.readLine()) != null) {
+				content.append(line);
+				content.append(System.lineSeparator());
+			}
+
+			System.out.println("You have access to paitents with id number: " + content.toString());
+
+
 			return true;
+		}
 		else
 			return false;
 
- */
+
 	}
 
 

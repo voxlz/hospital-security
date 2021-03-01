@@ -107,8 +107,8 @@ public class server implements Runnable {
 
                 String response = "";
 
-                //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
-                //out.println(response);
+                out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
+                out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
                 StringBuilder strb = new StringBuilder("");
 
