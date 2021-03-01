@@ -9,14 +9,13 @@ public class User {
 	private String userName;
 	private String password;
 
-
-	public User(UserType userType) {
+	public User(Role userType) {
 		this.id = idCounter;
 		idCounter++;
 		this.userType = userType;
 	}
 
-	public User(UserType userType, String division) {
+	public User(Role userType, String division) {
 		this.id = idCounter;
 		idCounter++;
 		this.userType = userType;
