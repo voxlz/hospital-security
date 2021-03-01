@@ -3,14 +3,19 @@ import java.net.*;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
 
+import Authentication.Role;
+
 public class server implements Runnable {
     private ServerSocket serverSocket = null;
     private static int numConnectedClients = 0;
+    private boolean correctUser;
+    private String[] userInfo;
 
     public server(ServerSocket ss) throws IOException {
         serverSocket = ss;
@@ -64,33 +69,42 @@ public class server implements Runnable {
 
         String clientMsg = null;
         List<String> list = WriterReader.readFile("mockUsers.txt");
-        while ((clientMsg = in.readLine()) != null) {
-            System.out.println("Loop");
+        User user = null;
 
+        while ((clientMsg = in.readLine()) != null) {
             if (clientMsg.startsWith("l:")) {
                 String[] loginInfo = clientMsg.substring(2).split(",");
+                String username = loginInfo[0];
                 String password = loginInfo[1];
                 String user = loginInfo[0];
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
 
                 // Find matching user from "database"
-                String response = list.stream().filter(str -> {
+                List<String> userStrings = WriterReader.readFile("mockUsers.txt");
+
+                Optional<String> userStr = userStrings.stream().filter(str -> {
                     if (str.isEmpty())
                         return false;
 
                     String[] values = str.split(", ");
                     System.out.println(values);
+                    correctUser = values[3].equals(username) && values[4].equals(password);
+                    return correctUser;
+                }).findFirst();
 
-                    return values[3].equals(user) && values[4].equals(password);
-                }).map(str -> "ok").findFirst().orElse("Login Failed: Username or Password didn't match");
+                if (userStr.isPresent()) {
+                    userInfo = userStr.get().split(", ");
+                    user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+                }
 
                 // Debug
-                // list.forEach(e -> {
-                // System.out.println(e);
-                // });
+                userStrings.forEach(e -> {
+                    System.out.println(e);
+                });
 
-                out.println(response);
+                out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
+                //out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
 
                 for(Journal jour: journals){
@@ -101,6 +115,8 @@ public class server implements Runnable {
 
                 out.flush();
                 System.out.println("response sent\n");
+            } else if (clientMsg.startsWith("c:")) {
+                String[] loginInfo = clientMsg.substring(2).split(",");
             }
 
             else if(clientMsg.startsWith("c:")) {
@@ -129,26 +145,6 @@ public class server implements Runnable {
         in.close();
         out.close();
         System.out.println("2");
-    }
-
-    // THE OLD MESSAGE HANDLING CODE
-    private void oldHandleMessages(SSLSocket socket) throws IOException {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-        String clientMsg = null;
-        while ((clientMsg = in.readLine()) != null) {
-            String rev = new StringBuilder(clientMsg).reverse().toString();
-            System.out.println("received '" + clientMsg + "' from client");
-            System.out.print("sending '" + rev + "' to client...");
-            out.println(rev);
-            out.flush();
-            System.out.println("done\n");
-        }
-        in.close();
-        out.close();
     }
 
     private void newListener() {
