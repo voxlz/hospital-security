@@ -3,22 +3,22 @@ import Authentication.Role;
 public class User {
 
 	private static int idCounter = 0;
-	private final Role userType;
-	private final int id;
-	private String division;
+	public final Role role;
+	public final int id;
+	String division;
 	private String userName;
 	private String password;
 
 	public User(Role userType) {
 		this.id = idCounter;
 		idCounter++;
-		this.userType = userType;
+		this.role = userType;
 	}
 
 	public User(Role userType, String division) {
 		this.id = idCounter;
 		idCounter++;
-		this.userType = userType;
+		this.role = userType;
 		this.division = division;
 	}
 
@@ -27,11 +27,11 @@ public class User {
 	}
 
 	public Role getUserType() {
-		return userType;
+		return role;
 	}
 
 	public String getDivision() {
-		if (userType == Role.Nurse || userType == Role.Doctor) {
+		if (role == Role.Nurse || role == Role.Doctor) {
 			return division;
 		} else {
 			return null;
@@ -54,7 +54,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return (id + ", " + userType.name() + ", " + division + ", " + userName + ", " + password);
+		return (id + ", " + role.name() + ", " + division + ", " + userName + ", " + password);
 	}
 
 	public static User fromString(String str) {

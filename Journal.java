@@ -1,13 +1,12 @@
-import Authentication.Role;
 
 public class Journal {
 
 	private static int idCounter = 0;
-	private int doctor;
-	private int nurse;
-	private int patient;
+	public final int doctor;
+	public final int nurse;
+	public final int patient;
 	private final int id;
-	private String division;
+	final String division;
 
 	public Journal(int doctor, int nurse, int patient, String division) {
 		idCounter++;
@@ -55,7 +54,7 @@ public class Journal {
 		return id;
 	}
 
-	public int getPatient(){
+	public int getPatient() {
 		return patient;
 	}
 

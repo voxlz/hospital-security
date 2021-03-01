@@ -1,6 +1,4 @@
 
-import Authentication.Role;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -31,15 +29,13 @@ public class ClientView {
 
 		boolean isValidUser = false;
 
-
-
 		while (!isValidUser) {
 			System.out.print("Username: ");
 			username = read.nextLine();
 
 			System.out.print("Password: ");
 			String password = read.nextLine();
-			//String password = String.valueOf(System.console().readPassword());
+			// String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
@@ -58,14 +54,13 @@ public class ClientView {
 		}
 
 		String com = read.nextLine();
-		userComand(out, in, username, com);
-
+		userCommand(out, in, username, com);
 
 		out.close();
 		in.close();
 	}
 
-	private static void userComand(PrintWriter out, BufferedReader in, String username, String command) {
+	private static void userCommand(PrintWriter out, BufferedReader in, String username, String command) {
 		String msg = "c:" + username + "," + command;
 		// want to check that it is a command
 
@@ -85,28 +80,23 @@ public class ClientView {
 		out.println(msg);
 		out.flush();
 
-		Boolean succes = false;
+		Boolean success = false;
 
 		String res = in.readLine();
 
 		System.out.println("server res: " + res);
 
-		if(!res.isEmpty()) {
-			//We succeded
-			succes = true;
+		if (!res.isEmpty()) {
+			// We succeded
+			success = true;
 		}
 
-		return succes;
-/*
-		if (res.equals("ok"))
-			return true;
-		else
-			return false;
-
- */
+		return success;
+		/*
+		 * if (res.equals("ok")) return true; else return false;
+		 * 
+		 */
 	}
-
-
 
 	private static void printOptions(User currentUser, List<Journal> journals) {
 		Scanner read = new Scanner(System.in);

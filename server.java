@@ -9,8 +9,6 @@ import javax.net.*;
 import javax.net.ssl.*;
 import javax.security.cert.X509Certificate;
 
-import Authentication.Role;
-
 public class server implements Runnable {
     private ServerSocket serverSocket = null;
     private static int numConnectedClients = 0;
@@ -74,13 +72,12 @@ public class server implements Runnable {
         User user = null;
         String response = "";
 
-
         while ((clientMsg = in.readLine()) != null) {
             if (clientMsg.startsWith("l:")) {
                 String[] loginInfo = clientMsg.substring(2).split(",");
                 String username = loginInfo[0];
                 String password = loginInfo[1];
-               // String user = loginInfo[0];
+                // String user = loginInfo[0];
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
 
@@ -103,9 +100,9 @@ public class server implements Runnable {
                 }
 
                 // Debug
-               /* userStrings.forEach(e -> {
-                    System.out.println(e);
-                }); */
+                /*
+                 * userStrings.forEach(e -> { System.out.println(e); });
+                 */
 
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
                 StringBuilder strb = new StringBuilder("");
@@ -114,7 +111,7 @@ public class server implements Runnable {
                     System.out.println("kommer vi hit?");
                     for (Journal jour : journals) {
                         // canRead tar in en User så måste ha det
-                        System.out.println("får vi journal? " + jour.toString()); //yes we do!
+                        System.out.println("får vi journal? " + jour.toString()); // yes we do!
                         if (jour.canRead(user)) {
                             System.out.println("kan vi läsa? ");
                             int j = jour.getPatient();
@@ -135,7 +132,7 @@ public class server implements Runnable {
                 String command = clientMsg.split(",")[1];
                 switch (command) {
                     case "reed":
-                        //gör typ som innan
+                        // gör typ som innan
                         break;
 
                     case "write":
@@ -152,8 +149,8 @@ public class server implements Runnable {
             }
         }
 
-      //  in.close();
-      //  out.close();
+        // in.close();
+        // out.close();
         System.out.println("2");
     }
 
