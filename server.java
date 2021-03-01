@@ -16,6 +16,8 @@ public class server implements Runnable {
     private static int numConnectedClients = 0;
     private boolean correctUser;
     private String[] userInfo;
+    PrintWriter out = null;
+    BufferedReader in = null;
 
     public server(ServerSocket ss) throws IOException {
         serverSocket = ss;
@@ -30,6 +32,8 @@ public class server implements Runnable {
 
             // Handles incoming client messages.
             handleMessages(socket);
+            in.close();
+            out.close();
 
             closeConnection(socket);
         } catch (IOException e) {
@@ -62,8 +66,6 @@ public class server implements Runnable {
     }
 
     private void handleMessages(SSLSocket socket) throws IOException {
-        PrintWriter out = null;
-        BufferedReader in = null;
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -103,6 +105,8 @@ public class server implements Runnable {
                     System.out.println(e);
                 });
 
+                String response = "";
+
                 //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
                 //out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
@@ -116,13 +120,11 @@ public class server implements Runnable {
                     }
                 }
                 //har en lista med ints jag vill skicka tillbaka till clienten
-                out.println(strb);
+                response = strb.toString();
+                out.println(response);
                 out.flush();
                 System.out.println("response sent\n");
-            } else if (clientMsg.startsWith("c:")) {
-                String[] loginInfo = clientMsg.substring(2).split(",");
             }
-
             else if(clientMsg.startsWith("c:")) {
                 //then we have a comand
                 String comand = clientMsg.split(",")[1];
@@ -146,8 +148,8 @@ public class server implements Runnable {
             }
         }
 
-        in.close();
-        out.close();
+      //  in.close();
+      //  out.close();
         System.out.println("2");
     }
 
