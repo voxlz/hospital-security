@@ -71,10 +71,14 @@ public class LoginView {
 
 		System.out.println("server res: " + res);
 
+		return true;
+/*
 		if (res.equals("ok"))
 			return true;
 		else
 			return false;
+
+ */
 	}
 
 	private static void userComand(PrintWriter out, BufferedReader in, String username, String comand) {

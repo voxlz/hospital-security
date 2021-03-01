@@ -103,21 +103,20 @@ public class server implements Runnable {
                     System.out.println(e);
                 });
 
-                out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
+                //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
                 //out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                ArrayList<Integer> allowedJournals = new ArrayList<>();
-                /*
+                StringBuilder strb = new StringBuilder("");
+
                 for(Journal jour: journals){
                     //canRead tar in en User så måste ha det
                     if(jour.canRead(user)){
-                        allowedJournals.add(jour.getPatient());
+                        int j = jour.getPatient();
+                        strb.append(j);
                     }
                 }
-                //har en lista med ints jag vill skicka tillbaka till clienten.
-
-                */
-
+                //har en lista med ints jag vill skicka tillbaka till clienten
+                out.println(strb);
                 out.flush();
                 System.out.println("response sent\n");
             } else if (clientMsg.startsWith("c:")) {
