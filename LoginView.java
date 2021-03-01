@@ -42,7 +42,6 @@ public class LoginView {
 				System.out.println("");
 				// display all patients it has reed access to. Must se what role is has.
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
-
 			}
 		}
 		out.close();

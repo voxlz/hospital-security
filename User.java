@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class User {
 
 	private static int idCounter = 0;
@@ -52,9 +49,9 @@ public class User {
 
 		return (id == u.getId());
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return (userType + "," + id + "," + division + "," + userName + "," + password);
 	}
 }

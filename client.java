@@ -1,13 +1,11 @@
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.security.KeyStore;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -67,30 +65,21 @@ public class client {
 
             /*
              * send http request
+             * 
              *
              * See SSLSocketClient.java for more information about why there is a forced
              * handshake here when using PrintWriters.
              */
             socket.startHandshake();
 
-            SSLSession session = socket.getSession();
-            X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
-
-            String subject = cert.getSubjectDN().getName();
-            String issuer = cert.getIssuerDN().getName();
-            String cerialN = cert.getSerialNumber().toString();
-
-            System.out.println(
-                    "certificate name (subject DN field) on certificate received from server:\n" + subject + "\n");
-            System.out.println("issuer name: " + issuer);
-            System.out.println("serial number: " + cerialN);
-            System.out.println("socket after handshake:\n" + socket + "\n");
-            System.out.println("secure connection established\n\n");
+            printSocketInfo(socket);
 
             // Previous behavior
             // echoMsg(socket);
 
             LoginView.login(socket);
+
+            LoginView.printOptions(socket);
 
             socket.close();
         } catch (Exception e) {
@@ -98,27 +87,44 @@ public class client {
         }
     }
 
-    private static void echoMsg(SSLSocket socket) throws IOException {
-        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String msg;
-        for (;;) {
-            System.out.print(">");
-            msg = read.readLine();
-            if (msg.equalsIgnoreCase("quit")) {
-                break;
-            }
-            System.out.print("sending '" + msg + "' to server...");
-            out.println(msg);
-            out.flush();
-            System.out.println("done");
+    private static void printSocketInfo(SSLSocket socket) throws SSLPeerUnverifiedException {
+        SSLSession session = socket.getSession();
+        X509Certificate cert = (X509Certificate) session.getPeerCertificateChain()[0];
 
-            System.out.println("received '" + in.readLine() + "' from server\n");
-        }
-        in.close();
-        out.close();
-        read.close();
+        String subject = cert.getSubjectDN().getName();
+        String issuer = cert.getIssuerDN().getName();
+        String cerialN = cert.getSerialNumber().toString();
+
+        System.out
+                .println("certificate name (subject DN field) on certificate received from server:\n" + subject + "\n");
+        System.out.println("issuer name: " + issuer);
+        System.out.println("serial number: " + cerialN);
+        System.out.println("socket after handshake:\n" + socket + "\n");
+        System.out.println("secure connection established\n\n");
     }
+
+    // private static void echoMsg(SSLSocket socket) throws IOException {
+    // BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+    // PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+    // BufferedReader in = new BufferedReader(new
+    // InputStreamReader(socket.getInputStream()));
+    // String msg;
+    // for (;;) {
+    // System.out.print(">");
+    // msg = read.readLine();
+    // if (msg.equalsIgnoreCase("quit")) {
+    // break;
+    // }
+    // System.out.print("sending '" + msg + "' to server...");
+    // out.println(msg);
+    // out.flush();
+    // System.out.println("done");
+
+    // System.out.println("received '" + in.readLine() + "' from server\n");
+    // }
+    // in.close();
+    // out.close();
+    // read.close();
+    // }
 
 }
