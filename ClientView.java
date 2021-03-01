@@ -90,12 +90,8 @@ public class ClientView {
 			// We succeded
 			success = true;
 		}
-
 		return success;
-		/*
-		 * if (res.equals("ok")) return true; else return false;
-		 * 
-		 */
+
 	}
 
 	private static void printOptions(User currentUser, List<Journal> journals) {

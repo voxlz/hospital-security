@@ -110,21 +110,19 @@ public class server implements Runnable {
                 if (user != null) { // <- la till detta
                     System.out.println("kommer vi hit?");
                     for (Journal jour : journals) {
-                        // canRead tar in en User så måste ha det
-                        System.out.println("får vi journal? " + jour.toString()); // yes we do!
-                        if (jour.canRead(user)) {
-                            System.out.println("kan vi läsa? ");
+                        if (Authenticator.allowAction(user, jour, Action.Read)) {
                             int j = jour.getPatient();
-                            strb.append(j);
+                            strb.append(String.valueOf(j) + " ");
                             System.out.println("patient id " + j);
                         }
                     }
                 }
                 // har en lista med ints jag vill skicka tillbaka till clienten
+                System.out.println(strb);
                 response = strb.toString();
-                System.out.println("response" + response);
+                System.out.println("response " + response);
 
-                out.println(response);
+                out.println(strb);
                 out.flush();
                 System.out.println("response sent\n");
             } else if (clientMsg.startsWith("c:")) {

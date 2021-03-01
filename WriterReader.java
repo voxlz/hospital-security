@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
 
-import Authentication.Role;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

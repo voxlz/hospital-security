@@ -1,4 +1,3 @@
-import Authentication.Role;
 
 public class User {
 
