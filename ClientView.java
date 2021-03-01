@@ -12,6 +12,7 @@ public class ClientView {
 	PrintWriter out;
 	BufferedReader in;
 	Scanner read;
+	String username;
 
 	public ClientView(SSLSocket socket) throws IOException {
 		out = new PrintWriter(socket.getOutputStream(), true);
@@ -32,7 +33,6 @@ public class ClientView {
 		while (!isValidUser) {
 			System.out.print("Username: ");
 			username = read.nextLine();
-			String username = read.nextLine();
 
 			System.out.print("Password: ");
 			String password = read.nextLine();
@@ -91,7 +91,8 @@ public class ClientView {
 
 		System.out.println("server res: " + res);
 
-		if (res.equals("ok")){
+		return true;
+/*
 			StringBuilder content = new StringBuilder();
 			String line;
 
@@ -101,14 +102,12 @@ public class ClientView {
 			}
 
 			System.out.println("You have access to paitents with id number: " + content.toString());
-
-
 			return true;
 		}
 		else
 			return false;
 
-
+ */
 	}
 
 

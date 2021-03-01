@@ -72,6 +72,8 @@ public class server implements Runnable {
         String clientMsg = null;
         List<String> list = WriterReader.readFile("mockUsers.txt");
         User user = null;
+        String response = "";
+
 
         while ((clientMsg = in.readLine()) != null) {
             if (clientMsg.startsWith("l:")) {
@@ -97,7 +99,21 @@ public class server implements Runnable {
 
                 if (userStr.isPresent()) {
                     userInfo = userStr.get().split(", ");
-                    //user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+                    user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+
+                    ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
+                    StringBuilder strb = new StringBuilder("");
+
+                    for(Journal jour: journals){
+                        //canRead tar in en User så måste ha det
+                        if(jour.canRead(user)){
+                            int j = jour.getPatient();
+                            strb.append(j);
+                            strb.append(", ");
+                        }
+                    }
+                    //har en lista med ints jag vill skicka tillbaka till clienten
+                    response = strb.toString();
                 }
 
                 // Debug
@@ -105,22 +121,8 @@ public class server implements Runnable {
                     System.out.println(e);
                 });
 
-                String response = "";
+                //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
 
-                out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
-                out.println(response);
-                ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                StringBuilder strb = new StringBuilder("");
-
-                for(Journal jour: journals){
-                    //canRead tar in en User så måste ha det
-                    if(jour.canRead(user)){
-                        int j = jour.getPatient();
-                        strb.append(j);
-                    }
-                }
-                //har en lista med ints jag vill skicka tillbaka till clienten
-                response = strb.toString();
                 out.println(response);
                 out.flush();
                 System.out.println("response sent\n");
@@ -128,7 +130,6 @@ public class server implements Runnable {
             else if(clientMsg.startsWith("c:")) {
                 //then we have a comand
                 String comand = clientMsg.split(",")[1];
-                String response;
                 switch (comand) {
                     case "reed":
                         //gör typ som innan
