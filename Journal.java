@@ -52,6 +52,10 @@ public class Journal {
 	public int getId() {
 		return id;
 	}
+
+	public int getPatient(){
+		return patient;
+	}
 	
 	@Override
 	public String toString(){

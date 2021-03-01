@@ -76,7 +76,7 @@ public class server implements Runnable {
                 String[] loginInfo = clientMsg.substring(2).split(",");
                 String username = loginInfo[0];
                 String password = loginInfo[1];
-                String user = loginInfo[0];
+               // String user = loginInfo[0];
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
 
@@ -95,7 +95,7 @@ public class server implements Runnable {
 
                 if (userStr.isPresent()) {
                     userInfo = userStr.get().split(", ");
-                    user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+                    //user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
                 }
 
                 // Debug
@@ -106,12 +106,17 @@ public class server implements Runnable {
                 out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
                 //out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-
+                ArrayList<Integer> allowedJournals = new ArrayList<>();
+                /*
                 for(Journal jour: journals){
                     //canRead tar in en User så måste ha det
+                    if(jour.canRead(user)){
+                        allowedJournals.add(jour.getPatient());
+                    }
                 }
+                //har en lista med ints jag vill skicka tillbaka till clienten.
 
-
+                */
 
                 out.flush();
                 System.out.println("response sent\n");

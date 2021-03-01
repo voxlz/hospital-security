@@ -15,6 +15,8 @@ public class LoginView {
 		System.out.println("--------------------");
 		System.out.println("");
 
+		String username = "";
+
 		Scanner read = new Scanner(System.in);
 
 		boolean isValidUser = false;
@@ -24,7 +26,7 @@ public class LoginView {
 
 		while (!isValidUser) {
 			System.out.print("Username: ");
-			String username = "";
+			username = read.nextLine();
 
 			System.out.print("Password: ");
 			String password = read.nextLine();
