@@ -1,22 +1,24 @@
+import Authentication.Role;
+
 public class User {
 
 	private static int idCounter = 0;
-	private final UserType userType;
+	private final Role userType;
 	private final int id;
 	private String division;
 	private String userName;
 	private String password;
 
-	public User(UserType userType) {
+	public User(Role userType) {
 		idCounter++;
 		this.id = idCounter;
 		this.userType = userType;
 	}
 
-	public User(UserType userType, String division) {
+	public User(Role role, String division) {
 		idCounter++;
 		this.id = idCounter;
-		this.userType = userType;
+		this.userType = role;
 		this.division = division;
 	}
 
@@ -24,12 +26,12 @@ public class User {
 		return id;
 	}
 
-	public UserType getUserType() {
+	public Role getUserType() {
 		return userType;
 	}
 
 	public String getDivision() {
-		if (userType == UserType.NURSE || userType == UserType.DOCTOR) {
+		if (userType == Role.Nurse || userType == Role.Doctor) {
 			return division;
 		} else {
 			return null;
@@ -54,4 +56,10 @@ public class User {
 	public String toString() {
 		return (userType + "," + id + "," + division + "," + userName + "," + password);
 	}
+
+	public static User fromString(String str) {
+		return null;
+		// return this(str.split(", ")[]);
+	}
+
 }

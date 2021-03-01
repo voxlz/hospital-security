@@ -44,6 +44,7 @@ public class LoginView {
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
 			}
 		}
+
 		out.close();
 		in.close();
 	}
