@@ -103,24 +103,30 @@ public class server implements Runnable {
                 }
 
                 // Debug
-                userStrings.forEach(e -> {
+               /* userStrings.forEach(e -> {
                     System.out.println(e);
-                });
+                }); */
 
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
                 StringBuilder strb = new StringBuilder("");
 
                 if (user != null) { // <- la till detta
+                    System.out.println("kommer vi hit?");
                     for (Journal jour : journals) {
                         // canRead tar in en User så måste ha det
+                        System.out.println("får vi journal? " + jour.toString()); //yes we do!
                         if (jour.canRead(user)) {
+                            System.out.println("kan vi läsa? ");
                             int j = jour.getPatient();
                             strb.append(j);
+                            System.out.println("patient id " + j);
                         }
                     }
                 }
                 // har en lista med ints jag vill skicka tillbaka till clienten
                 response = strb.toString();
+                System.out.println("response" + response);
+
                 out.println(response);
                 out.flush();
                 System.out.println("response sent\n");
