@@ -11,4 +11,3 @@ id, role, department, user, password
 9, Patient, -, aaa, lösen000rd
 10, Patient, -, bbb, l0sen0rd
 11, Government, -, iluminati, lasenard
-
