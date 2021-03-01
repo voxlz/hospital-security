@@ -16,8 +16,6 @@ public class LoginView {
 		System.out.println("--------------------");
 		System.out.println("");
 
-		String username = "";
-
 		Scanner read = new Scanner(System.in);
 
 		boolean isValidUser = false;
@@ -57,6 +55,20 @@ public class LoginView {
 		in.close();
 	}
 
+	private static void userComand(PrintWriter out, BufferedReader in, String username, String command) {
+		String msg = "c:" + username + "," + command;
+		// want to check that it is a command
+
+		out.print(msg);
+		out.flush();
+
+		String[] commandline = msg.split(",");
+		command = commandline[1];
+		System.out.println(command);
+		out.println(msg);
+		out.flush();
+	}
+
 	private ArrayList<User> patients(PrintWriter out, BufferedReader in, Role role) {
 		// via connectionen med serven vill jag skicka ett request om att få info över
 		// patienter.
@@ -83,33 +95,6 @@ public class LoginView {
  */
 	}
 
-	private static void userCommand(PrintWriter out, BufferedReader in, String username, String command) {
-		String msg = "c:" + username + "," + command;
-		// want to check that it is a command
-
-		out.print(msg);
-		out.flush();
-
-		String[] commandline = msg.split(",");
-		command = commandline[1];
-		System.out.println(command);
-		out.println(msg);
-		out.flush();
-
-		//out.println(msg);
-		//out.flush();
-/*
-		String res = in.readLine();
-
-		System.out.println("server res: " + res);
-
-		if (res.equals("ok"))
-			return true;
-		else
-			return false;
-
- */
-	}
 
 
 	private static void printOptions(User currentUser, List<Journal> journals) {
