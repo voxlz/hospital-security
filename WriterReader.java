@@ -46,11 +46,11 @@ public class WriterReader {
     writer.close();
   }
   
-	public void createJournal(String fileName, Journal journal) throws IOException {
+	public static void createJournal(String fileName, Journal journal) throws IOException {
 		write(fileName, journal.toString());
 	}
 	
-	private void write(String fileName, final String s) throws IOException {
+	private static void write(String fileName, final String s) throws IOException {
 		Path filePath = Paths.get(fileName);
 		Files.writeString(
 			filePath,
@@ -60,29 +60,39 @@ public class WriterReader {
 		);
 	}
   
-	public ArrayList<Journal> getJournals(String fileName) throws FileNotFoundException {
+	public static ArrayList<Journal> getJournals(String fileName) throws FileNotFoundException {
 		Scanner input = new Scanner(new File(fileName));
-		input.useDelimiter(",|\n");
+		input.useDelimiter(", |\n");
 
 		ArrayList<Journal> journals = new ArrayList<Journal>();
+		
+		input.next();
+		input.next();
+		input.next();
+		input.next();
+		input.next();
+		
 		while(input.hasNext()) {
-			int doctor = input.nextInt();
-			int nurse = input.nextInt();
-			int patient = input.nextInt();
+			input.next();
+			String doctor = input.next();
+			String nurse = input.next();
+			String patient = input.next();
 			String department = input.next();
-
-			Journal newJournal = new Journal(doctor, nurse, patient, department);
+			
+			
+			Journal newJournal = new Journal(Integer.parseInt(doctor), Integer.parseInt(nurse), Integer.parseInt(patient), department);
 			journals.add(newJournal);
 		}
-		
+		input.close();
 		return journals;
 	}
 	
-	public ArrayList<User> getUsers(String fileName) throws FileNotFoundException {
+	public static ArrayList<User> getUsers(String fileName) throws FileNotFoundException {
 		Scanner input = new Scanner(new File(fileName));
 		input.useDelimiter(",|\n");
 
 		ArrayList<User> users = new ArrayList<User>();
+		
 		while(input.hasNext()) {
 			input.next();
 			String role = input.next();
@@ -93,11 +103,11 @@ public class WriterReader {
 			User newUser = new User(toUserType(role), department);
 			users.add(newUser);
 		}
-		
+		input.close();
 		return users;
 	}
 	
-	private UserType toUserType(String s){
+	private static UserType toUserType(String s){
 		switch(s.toLowerCase()){
 			case "doctor":	
 				return UserType.DOCTOR;
