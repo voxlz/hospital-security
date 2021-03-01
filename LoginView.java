@@ -2,6 +2,7 @@
 import Authentication.Role;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class LoginView {
 		System.out.println("--------------------");
 		System.out.println("");
 
-		Scanner read = new Scanner(System.in);
+		Scanner read = new Scanner(System.in, Charset.forName("UTF-8"));
 
 		boolean isValidUser = false;
 
@@ -29,7 +30,7 @@ public class LoginView {
 
 			System.out.print("Password: ");
 			String password = read.nextLine();
-			//String password = String.valueOf(System.console().readPassword());
+			// String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
@@ -48,14 +49,13 @@ public class LoginView {
 		}
 
 		String com = read.nextLine();
-		userComand(out, in, username, com);
-
+		userCommand(out, in, username, com);
 
 		out.close();
 		in.close();
 	}
 
-	private static void userComand(PrintWriter out, BufferedReader in, String username, String command) {
+	private static void userCommand(PrintWriter out, BufferedReader in, String username, String command) {
 		String msg = "c:" + username + "," + command;
 		// want to check that it is a command
 
@@ -69,12 +69,6 @@ public class LoginView {
 		out.flush();
 	}
 
-	private ArrayList<User> patients(PrintWriter out, BufferedReader in, Role role) {
-		// via connectionen med serven vill jag skicka ett request om att få info över
-		// patienter.
-		return null;
-	}
-
 	private static boolean authUserOnServer(PrintWriter out, BufferedReader in, String username, String password)
 			throws IOException {
 		String msg = "l:" + username + ',' + password;
@@ -85,17 +79,12 @@ public class LoginView {
 
 		System.out.println("server res: " + res);
 
-		return true;
-/*
-		if (res.equals("ok"))
-			return true;
-		else
-			return false;
-
- */
+		return true; // <--- Detta måste ändras
+		/*
+		 * if (res.equals("ok")) return true; else return false;
+		 * 
+		 */
 	}
-
-
 
 	private static void printOptions(User currentUser, List<Journal> journals) {
 		Scanner in = new Scanner(System.in);

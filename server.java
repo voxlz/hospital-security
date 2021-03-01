@@ -78,7 +78,7 @@ public class server implements Runnable {
                 String[] loginInfo = clientMsg.substring(2).split(",");
                 String username = loginInfo[0];
                 String password = loginInfo[1];
-               // String user = loginInfo[0];
+                // String user = loginInfo[0];
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
 
@@ -97,7 +97,7 @@ public class server implements Runnable {
 
                 if (userStr.isPresent()) {
                     userInfo = userStr.get().split(", ");
-                    //user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+                    user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
                 }
 
                 // Debug
@@ -107,31 +107,35 @@ public class server implements Runnable {
 
                 String response = "";
 
-                //out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not match");
-                //out.println(response);
+                // out.println(userStr.isPresent() ? "ok" : "ERR: Username or Password does not
+                // match");
+                // out.println(response);
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
                 StringBuilder strb = new StringBuilder("");
 
-                for(Journal jour: journals){
-                    //canRead tar in en User så måste ha det
-                    if(jour.canRead(user)){
-                        int j = jour.getPatient();
-                        strb.append(j);
+                if (user != null) { // <- la till detta
+                    for (Journal jour : journals) {
+                        // canRead tar in en User så måste ha det
+                        if (jour.canRead(user)) {
+                            int j = jour.getPatient();
+                            strb.append(j);
+                        }
                     }
+                } else {
+                   strb.append("") // <--- Detta måste ändras, du vill skicka något som du kan hantera
                 }
-                //har en lista med ints jag vill skicka tillbaka till clienten
+                // har en lista med ints jag vill skicka tillbaka till clienten
                 response = strb.toString();
                 out.println(response);
                 out.flush();
                 System.out.println("response sent\n");
-            }
-            else if(clientMsg.startsWith("c:")) {
-                //then we have a comand
-                String comand = clientMsg.split(",")[1];
+            } else if (clientMsg.startsWith("c:")) {
+                // then we have a command
+                String command = clientMsg.split(",")[1];
                 String response;
-                switch (comand) {
+                switch (command) {
                     case "reed":
-                        //gör typ som innan
+                        // gör typ som innan
                         break;
 
                     case "write":
@@ -142,14 +146,14 @@ public class server implements Runnable {
                         break;
 
                     default:
-                        response = "not a comand";
+                        response = "not a command";
                         out.println(response);
                 }
             }
         }
 
-      //  in.close();
-      //  out.close();
+        // in.close();
+        // out.close();
         System.out.println("2");
     }
 
