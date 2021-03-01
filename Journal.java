@@ -18,7 +18,7 @@ public class Journal {
 	}
 
 	public boolean canRead(User currentUser) {
-		if (currentUser.equals(doctor) || currentUser.equals(nurse) || currentUser.equals(patient)) {
+		if (currentUser.id == doctor || currentUser.equals(nurse) || currentUser.equals(patient)) {
 			return true;
 		}
 		if (currentUser.getUserType() == Role.Government) {
@@ -60,6 +60,6 @@ public class Journal {
 
 	@Override
 	public String toString() {
-		return (id + ", " + doctor + ", " + nurse + ", " + patient + ", " + division);
+		return id + ", " + doctor + ", " + nurse + ", " + patient + ", " + division;
 	}
 }
