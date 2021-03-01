@@ -89,7 +89,7 @@ public class server implements Runnable {
                         return false;
 
                     String[] values = str.split(", ");
-                    System.out.println(values);
+                    // System.out.println(values);
                     correctUser = values[3].equals(username) && values[4].equals(password);
                     return correctUser;
                 }).findFirst();
@@ -105,31 +105,36 @@ public class server implements Runnable {
                  */
 
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                StringBuilder strb = new StringBuilder("");
+                String returnStr = "";
 
                 if (user != null) { // <- la till detta
-                    System.out.println("kommer vi hit?");
+                    System.out.println("kommer vi hit? User: " + user.toString());
+
+                    returnStr += "ok:";
+
                     for (Journal jour : journals) {
-                        if (Authenticator.allowAction(user, jour, Action.Read)) {
+                        if (Authenticator.allowAction(user, jour, Action.read)) {
                             int j = jour.getPatient();
-                            strb.append(String.valueOf(j) + " ");
+                            returnStr += jour.toString() + ";";
                             System.out.println("patient id " + j);
+                            System.out.println("jour: " + jour.toString());
+
                         }
                     }
                 }
                 // har en lista med ints jag vill skicka tillbaka till clienten
-                System.out.println(strb);
-                response = strb.toString();
-                System.out.println("response " + response);
+                // System.out.println(strb);
+                response = returnStr;
+                System.out.println("response: " + response);
 
-                out.println(strb);
+                out.println(returnStr);
                 out.flush();
                 System.out.println("response sent\n");
             } else if (clientMsg.startsWith("c:")) {
                 // then we have a command
                 String command = clientMsg.split(",")[1];
                 switch (command) {
-                    case "reed":
+                    case "read":
                         // gör typ som innan
                         break;
 
