@@ -79,7 +79,7 @@ public class client {
 
             LoginView.login(socket);
 
-            LoginView.printOptions(socket);
+            // LoginView.printOptions(socket);
 
             socket.close();
         } catch (Exception e) {
