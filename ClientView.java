@@ -8,24 +8,28 @@ import java.util.Scanner;
 
 import javax.net.ssl.SSLSocket;
 
-public class LoginView {
-	public static void login(SSLSocket socket) throws IOException {
+public class ClientView {
+	PrintWriter out;
+	BufferedReader in;
+	Scanner read;
+
+	public ClientView(SSLSocket socket) throws IOException {
+		out = new PrintWriter(socket.getOutputStream(), true);
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		read = new Scanner(System.in);
+	}
+
+	public void login() throws IOException {
 		System.out.println("--------------------");
 		System.out.println("Welcome to this hospital Security");
 		System.out.println("--------------------");
 		System.out.println("");
 
-		Scanner read = new Scanner(System.in);
-
 		boolean isValidUser = false;
-
-		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 		while (!isValidUser) {
 			System.out.print("Username: ");
-			String username = "";
-			username = read.nextLine();
+			String username = read.nextLine();
 
 			System.out.print("Password: ");
 			String password = String.valueOf(System.console().readPassword());
@@ -44,9 +48,6 @@ public class LoginView {
 				// tänk vi är läkare vill ha info om patienter. be server om den infon
 			}
 		}
-
-		out.close();
-		in.close();
 	}
 
 	private ArrayList<User> patients(PrintWriter out, BufferedReader in, Role role) {
@@ -72,7 +73,8 @@ public class LoginView {
 	}
 
 	private static void printOptions(User currentUser, List<Journal> journals) {
-		Scanner in = new Scanner(System.in);
+		Scanner read = new Scanner(System.in);
+		String command = read.nextLine();
 
 		System.out.println("");
 		System.out.println("Please use one of the following options: ");
@@ -82,7 +84,6 @@ public class LoginView {
 		System.out.println("create \"id\"");
 		System.out.println("");
 
-		String command = in.nextLine();
 		String[] commands = command.split(" ");
 
 		switch (commands[0]) {
@@ -117,7 +118,6 @@ public class LoginView {
 				System.out.println("");
 		}
 
-		in.close();
 	}
 
 	private static Journal getJournal(List<Journal> journals, int journalId) {
@@ -129,8 +129,32 @@ public class LoginView {
 		return null;
 	}
 
-	private static ArrayList<Journal> printAvailableJournals() {
-		// do stuff
-		return null;
+	public void commandLoop() throws IOException {
+
+		boolean quit = false;
+		while (!quit) {
+			// Reading data using readLine
+			System.out.print("> ");
+
+			String command = read.nextLine();
+
+			if (command.equals("help")) {
+				System.out.println("read \"id\"");
+				System.out.println("write \"id\"");
+				System.out.println("delete \"id\"");
+				System.out.println("create \"id\"");
+			} else if (command.equals("quit")) {
+				quit = true;
+			} else {
+				System.out.println("Totally real server response to " + command + " ...");
+			}
+			System.out.println("");
+		}
+	}
+
+	public void close() throws IOException {
+		out.close();
+		in.close();
+		read.close();
 	}
 }

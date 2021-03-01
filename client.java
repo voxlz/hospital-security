@@ -76,10 +76,11 @@ public class client {
 
             // Previous behavior
             // echoMsg(socket);
+            ClientView view = new ClientView(socket);
 
-            LoginView.login(socket);
-
-            // LoginView.printOptions(socket);
+            view.login();
+            view.commandLoop();
+            view.close();
 
             socket.close();
         } catch (Exception e) {
