@@ -34,8 +34,8 @@ public class ClientView {
 			username = read.nextLine();
 
 			System.out.print("Password: ");
-			String password = read.nextLine();
-			// String password = String.valueOf(System.console().readPassword());
+			//String password = read.nextLine(); //för att det ska funka för Lisa
+			String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(out, in, username, password);
 
