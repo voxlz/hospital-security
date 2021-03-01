@@ -1,3 +1,5 @@
+import Authentication.Role;
+
 public class Journal {
 
 	private static int idCounter = 0;
@@ -20,7 +22,7 @@ public class Journal {
 		if (currentUser.equals(doctor) || currentUser.equals(nurse) || currentUser.equals(patient)) {
 			return true;
 		}
-		if (currentUser.getUserType() == UserType.GOVERNMENT) {
+		if (currentUser.getUserType() == Role.Government) {
 			return true;
 		}
 		return checkDivision(currentUser);
@@ -43,7 +45,7 @@ public class Journal {
 	}
 
 	public boolean canDelete(User user) {
-		if (user.getUserType() == UserType.GOVERNMENT) {
+		if (user.getUserType() == Role.Government) {
 			return true;
 		}
 		return false;
@@ -52,9 +54,9 @@ public class Journal {
 	public int getId() {
 		return id;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return (doctor + "," + nurse + "," + patient + "," + division);
 	}
 }
