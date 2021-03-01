@@ -107,8 +107,8 @@ public class server implements Runnable {
                     System.out.println(e);
                 });
 
-                    ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                    StringBuilder strb = new StringBuilder("");
+                ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
+                StringBuilder strb = new StringBuilder("");
 
                 if (user != null) { // <- la till detta
                     for (Journal jour : journals) {
@@ -118,8 +118,6 @@ public class server implements Runnable {
                             strb.append(j);
                         }
                     }
-                } else {
-                    strb.append(""); // <--- Detta måste ändras, du vill skicka något som du kan hantera
                 }
                 // har en lista med ints jag vill skicka tillbaka till clienten
                 response = strb.toString();

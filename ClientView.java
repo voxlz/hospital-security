@@ -85,11 +85,18 @@ public class ClientView {
 		out.println(msg);
 		out.flush();
 
+		Boolean succes = false;
+
 		String res = in.readLine();
 
 		System.out.println("server res: " + res);
 
-		return true;
+		if(!res.isEmpty()) {
+			//We succeded
+			succes = true;
+		}
+
+		return succes;
 /*
 		if (res.equals("ok"))
 			return true;
