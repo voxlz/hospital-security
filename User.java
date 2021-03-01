@@ -9,16 +9,17 @@ public class User {
 	private String userName;
 	private String password;
 
-	public User(Role userType) {
-		idCounter++;
+
+	public User(UserType userType) {
 		this.id = idCounter;
+		idCounter++;
 		this.userType = userType;
 	}
 
-	public User(Role role, String division) {
-		idCounter++;
+	public User(UserType userType, String division) {
 		this.id = idCounter;
-		this.userType = role;
+		idCounter++;
+		this.userType = userType;
 		this.division = division;
 	}
 
@@ -54,7 +55,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return (userType + "," + id + "," + division + "," + userName + "," + password);
+		return (id + ", " + userType.name() + ", " + division + ", " + userName + ", " + password);
 	}
 
 	public static User fromString(String str) {

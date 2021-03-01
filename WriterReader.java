@@ -50,11 +50,15 @@ public class WriterReader {
 		write(fileName, journal.toString());
 	}
 	
+	public static void createUser(String fileName, User user) throws IOException {
+		write(fileName, user.toString());
+	}
+	
 	private static void write(String fileName, final String s) throws IOException {
 		Path filePath = Paths.get(fileName);
 		Files.writeString(
 			filePath,
-			s + System.lineSeparator(),
+			System.lineSeparator() + s,
 			StandardOpenOption.CREATE,
 			StandardOpenOption.APPEND
 		);
@@ -66,11 +70,9 @@ public class WriterReader {
 
 		ArrayList<Journal> journals = new ArrayList<Journal>();
 		
-		input.next();
-		input.next();
-		input.next();
-		input.next();
-		input.next();
+		for(int i = 0; i < 5; i++){
+			input.next();
+		}
 		
 		while(input.hasNext()) {
 			input.next();
@@ -89,9 +91,13 @@ public class WriterReader {
 	
 	public static ArrayList<User> getUsers(String fileName) throws FileNotFoundException {
 		Scanner input = new Scanner(new File(fileName));
-		input.useDelimiter(",|\n");
+		input.useDelimiter(", |\n");
 
 		ArrayList<User> users = new ArrayList<User>();
+		
+		for(int i = 0; i < 5; i++){
+			input.next();
+		}
 		
 		while(input.hasNext()) {
 			input.next();
@@ -112,11 +118,11 @@ public class WriterReader {
 			case "doctor":	
 				return UserType.DOCTOR;
 			case "nurse":
-				return UserType.DOCTOR;
+				return UserType.NURSE;
 			case "patient":
-				return UserType.DOCTOR;
+				return UserType.PATIENT;
 			case "government":
-				return UserType.DOCTOR;
+				return UserType.GOVERNMENT;
 			default:
 				return null;
 		}

@@ -8,8 +8,8 @@ public class Journal {
 	private String division;
 
 	public Journal(int doctor, int nurse, int patient, String division) {
-		idCounter++;
 		id = idCounter;
+		idCounter++;
 		this.doctor = doctor;
 		this.nurse = nurse;
 		this.patient = patient;
@@ -55,6 +55,6 @@ public class Journal {
 	
 	@Override
 	public String toString(){
-		return (doctor + "," + nurse + "," + patient + "," + division);
+		return (id + ", " + doctor + ", " + nurse + ", " + patient + ", " + division);
 	}
 }
