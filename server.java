@@ -122,7 +122,7 @@ public class server implements Runnable {
                         }
                     }
                 } else {
-                   strb.append("") // <--- Detta måste ändras, du vill skicka något som du kan hantera
+                    strb.append(""); // <--- Detta måste ändras, du vill skicka något som du kan hantera
                 }
                 // har en lista med ints jag vill skicka tillbaka till clienten
                 response = strb.toString();
