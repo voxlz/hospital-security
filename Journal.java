@@ -14,7 +14,7 @@ public class Journal {
 		this.doctor = doctor;
 		this.nurse = nurse;
 		this.patient = patient;
-		this.division = division;
+		this.division = division.trim();
 	}
 
 	public boolean canRead(User currentUser) {
@@ -60,6 +60,6 @@ public class Journal {
 
 	@Override
 	public String toString() {
-		return id + ", " + doctor + ", " + nurse + ", " + patient + ", " + division;
+		return (id + ", " + doctor + ", " + nurse + ", " + patient + ", " + division.trim()).trim().replaceAll("\n", "");
 	}
 }

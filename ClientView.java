@@ -44,18 +44,21 @@ public class ClientView {
 		}
 	}
 
-	private void userCommand(String username, String command) {
-		String msg = "c:" + username + "," + command;
+	private void userCommand(String username, String command) throws IOException {
+		String msg = "c:" + command;
 		// want to check that it is a command
 
-		out.print(msg);
-		out.flush();
+		// out.print(msg);
+		// out.flush();
 
-		String[] commandline = msg.split(",");
-		command = commandline[1];
-		System.out.println(command);
+		// String[] commandline = msg.split(",");
+		// command = commandline[1];
+		// System.out.println(command);
 		out.println(msg);
 		out.flush();
+
+		String res = in.readLine();
+		System.out.println(res);
 	}
 
 	private boolean authUserOnServer(String username, String password) throws IOException {
@@ -112,7 +115,7 @@ public class ClientView {
 				isCommand = false;
 			}
 
-			System.out.println(action + " " + isCommand);
+			// System.out.println(action + " " + isCommand);
 
 			if (command.equals("help")) {
 				System.out.println("read \"id\"");
@@ -123,8 +126,10 @@ public class ClientView {
 				quit = true;
 			} else {
 				if (isCommand) {
-					System.out.println("Totally real server response to " + command + " ...");
+					// System.out.println("Totally real server response to " + command + " ...");
 					userCommand(username, command);
+				} else {
+					System.out.println(command + "does not exist...");
 				}
 			}
 			System.out.println("");

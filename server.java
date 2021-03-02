@@ -70,6 +70,7 @@ public class server implements Runnable {
 
         String clientMsg = null;
         User user = null;
+        ArrayList<Journal> journals = null;
 
         while ((clientMsg = in.readLine()) != null) {
             if (clientMsg.startsWith("l:")) {
@@ -96,14 +97,14 @@ public class server implements Runnable {
                     user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
                 }
 
-                ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
+                journals = WriterReader.getJournals("mockEntries.txt");
                 String response = "";
 
                 if (user != null) {
                     final User _user = user;
                     response = journals.stream().filter(jour -> Authenticator.allowAction(_user, jour, Action.read))
                             .map(jour -> {
-                                return jour.toString().trim().replaceAll("\n", "") + ";";
+                                return jour.toString() + ";";
                             }).reduce((prev, curr) -> prev.concat(curr)).orElse("");
                 }
 
@@ -113,23 +114,40 @@ public class server implements Runnable {
                 System.out.println("sent response: " + response);
             } else if (clientMsg.startsWith("c:")) {
                 // then we have a command
-                String command = clientMsg.split(",")[1];
-                switch (command) {
-                    case "read":
-                        // gör typ som innan
-                        break;
+                String msg = clientMsg.substring(2);
+                String command = msg.split(" ")[0];
+                String jourId = msg.split(" ")[1];
+                Journal jour = null;
+                if (journals != null)
+                    jour = journals.stream().filter(j -> j.getId() == Integer.parseInt(jourId)).findFirst()
+                            .orElse(null);
 
-                    case "write":
+                System.out.println("jour: " + jour.toString());
 
-                        break;
+                System.out.println("command: " + command + ", " + jourId);
 
-                    case "delete":
-                        break;
-
-                    default:
-                        String response = "not a command";
-                        out.println(response);
+                Boolean isAllowed = false;
+                if (jour != null) {
+                    switch (command) {
+                        case "read":
+                            isAllowed = Authenticator.allowAction(user, jour, Action.read);
+                            break;
+                        case "write":
+                            isAllowed = Authenticator.allowAction(user, jour, Action.write);
+                            break;
+                        case "delete":
+                            isAllowed = Authenticator.allowAction(user, jour, Action.delete);
+                            break;
+                        default:
+                            isAllowed = null;
+                    }
                 }
+                if (isAllowed == null) {
+                    out.println("Command does not exists");
+                } else {
+                    out.println("response: " + isAllowed);
+                }
+
             }
         }
         System.out.println("2");

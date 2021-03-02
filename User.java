@@ -18,7 +18,7 @@ public class User {
 		this.id = idCounter;
 		idCounter++;
 		this.role = userType;
-		this.division = division;
+		this.division = division.trim();
 	}
 
 	public int getId() {
@@ -53,7 +53,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return (id + ", " + role.name() + ", " + division + ", " + userName + ", " + password);
+		return (id + ", " + role.name().trim() + ", " + division.trim()).trim().replaceAll("\n", "");
 	}
 
 	public static User fromString(String str) {
