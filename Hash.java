@@ -21,7 +21,6 @@ public class Hash {
     StringBuffer hexString = new StringBuffer();
     hexString.append(Base64.getEncoder().encodeToString(salt));
     hexString.append(Base64.getEncoder().encodeToString(hashedPassword));
-    System.out.println(hexString.toString());
     return hexString.toString();
   }
 
@@ -36,8 +35,6 @@ public class Hash {
     StringBuffer hexString = new StringBuffer();
     hexString.append(Base64.getEncoder().encodeToString(byteSalt));
     hexString.append(Base64.getEncoder().encodeToString(hashedPassword));
-    System.out.println(hexString.toString());
-    System.out.println(hashPassword);
     hexString.toString();
     isVerified = hashPassword.equals(hexString.toString());
     return isVerified;
