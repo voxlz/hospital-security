@@ -16,6 +16,7 @@ public class server implements Runnable {
     private String[] userInfo;
     PrintWriter out = null;
     BufferedReader in = null;
+    private String jourStr;
 
     public server(ServerSocket ss) throws IOException {
         serverSocket = ss;
@@ -110,14 +111,14 @@ public class server implements Runnable {
                 if (user != null) { // <- la till detta
                     System.out.println("kommer vi hit? User: " + user.toString());
 
-                    returnStr += "ok:";
+                    returnStr = "ok:";
 
                     for (Journal jour : journals) {
                         if (Authenticator.allowAction(user, jour, Action.read)) {
                             int j = jour.getPatient();
-                            returnStr += jour.toString() + ";";
-                            System.out.println("patient id " + j);
-                            System.out.println("jour: " + jour.toString());
+                            jourStr = jour.toString();
+                            returnStr = returnStr + jourStr + ",,";
+                            System.out.println("debug: " + returnStr + ": jourStr: " + jourStr);
 
                         }
                     }
