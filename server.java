@@ -64,23 +64,20 @@ public class server implements Runnable {
         System.out.println(numConnectedClients + " concurrent connection(s)\n");
     }
 
-    private void handleMessages(SSLSocket socket) throws IOException {
+    private synchronized void handleMessages(SSLSocket socket) throws IOException {
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         String clientMsg = null;
-        List<String> list = WriterReader.readFile("mockUsers.txt");
         User user = null;
-        String response = "";
 
         while ((clientMsg = in.readLine()) != null) {
             if (clientMsg.startsWith("l:")) {
                 String[] loginInfo = clientMsg.substring(2).split(",");
                 String username = loginInfo[0];
                 String password = loginInfo[1];
-                // String user = loginInfo[0];
 
-                System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client");
+                System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client \n");
 
                 // Find matching user from "database"
                 List<String> userStrings = WriterReader.readFile("mockUsers.txt");
@@ -90,7 +87,6 @@ public class server implements Runnable {
                         return false;
 
                     String[] values = str.split(", ");
-                    // System.out.println(values);
                     correctUser = values[3].equals(username) && values[4].equals(password);
                     return correctUser;
                 }).findFirst();
@@ -100,37 +96,21 @@ public class server implements Runnable {
                     user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
                 }
 
-                // Debug
-                /*
-                 * userStrings.forEach(e -> { System.out.println(e); });
-                 */
-
                 ArrayList<Journal> journals = WriterReader.getJournals("mockEntries.txt");
-                String returnStr = "";
+                String response = "";
 
-                if (user != null) { // <- la till detta
-                    System.out.println("kommer vi hit? User: " + user.toString());
-
-                    returnStr = "ok:";
-
-                    for (Journal jour : journals) {
-                        if (Authenticator.allowAction(user, jour, Action.read)) {
-                            int j = jour.getPatient();
-                            jourStr = jour.toString();
-                            returnStr = returnStr + jourStr + ",,";
-                            System.out.println("debug: " + returnStr + ": jourStr: " + jourStr);
-
-                        }
-                    }
+                if (user != null) {
+                    final User _user = user;
+                    response = journals.stream().filter(jour -> Authenticator.allowAction(_user, jour, Action.read))
+                            .map(jour -> {
+                                return jour.toString().trim().replaceAll("\n", "") + ";";
+                            }).reduce((prev, curr) -> prev.concat(curr)).orElse("");
                 }
-                // har en lista med ints jag vill skicka tillbaka till clienten
-                // System.out.println(strb);
-                response = returnStr;
-                System.out.println("response: " + response);
 
-                out.println(returnStr);
+                response = "ok:" + response;
+                out.println(response);
                 out.flush();
-                System.out.println("response sent\n");
+                System.out.println("sent response: " + response);
             } else if (clientMsg.startsWith("c:")) {
                 // then we have a command
                 String command = clientMsg.split(",")[1];
@@ -147,14 +127,11 @@ public class server implements Runnable {
                         break;
 
                     default:
-                        response = "not a comand";
+                        String response = "not a command";
                         out.println(response);
                 }
             }
         }
-
-        // in.close();
-        // out.close();
         System.out.println("2");
     }
 

@@ -74,9 +74,9 @@ public class ClientView {
 
 			System.out.println(
 					"Your journal: \n======================================\nid\tdoctor\tnurse\tpatient\tdepart\n------------------------------------\n"
-							+ res.substring(3).replace(", ", "\t"));
+							+ res.substring(3).replaceAll(", ", "\t").replaceAll(";", "\n"));
 
-			System.out.println(res);
+			// System.out.println(res);
 
 			// We succeeded
 			success = true;
