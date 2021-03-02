@@ -1,16 +1,16 @@
 
 public class Journal {
 
-	private static int idCounter = 0;
+	//private static int idCounter = 0;
 	public final int doctor;
 	public final int nurse;
 	public final int patient;
 	private final int id;
 	final String division;
 
-	public Journal(int doctor, int nurse, int patient, String division) {
-		idCounter++;
-		id = idCounter;
+	public Journal(int id, int doctor, int nurse, int patient, String division) {
+		//idCounter++;
+		this.id = id;
 		this.doctor = doctor;
 		this.nurse = nurse;
 		this.patient = patient;

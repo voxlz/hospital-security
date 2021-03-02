@@ -86,14 +86,14 @@ public class WriterReader {
 		}
 
 		while (input.hasNext()) {
-			input.next();
+			String id = input.next();
 			String doctor = input.next();
 			String nurse = input.next();
 			String patient = input.next();
 			String department = input.next();
 
-			Journal newJournal = new Journal(Integer.parseInt(doctor), Integer.parseInt(nurse), Integer.parseInt(patient),
-					department);
+			Journal newJournal = new Journal(Integer.parseInt(id), Integer.parseInt(doctor), 
+				Integer.parseInt(nurse), Integer.parseInt(patient),department);
 			journals.add(newJournal);
 		}
 		input.close();
@@ -116,13 +116,13 @@ public class WriterReader {
 		}
 
 		while (input.hasNext()) {
-			input.next();
+			String id = input.next();
 			String role = input.next();
 			String department = input.next();
 			input.next();
 			input.next();
 
-			User newUser = new User(Role.valueOf(role), department);
+			User newUser = new User(Integer.parseInt(id), Role.valueOf(role), department);
 			users.add(newUser);
 		}
 		input.close();

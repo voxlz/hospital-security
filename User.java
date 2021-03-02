@@ -1,22 +1,22 @@
 
 public class User {
 
-	private static int idCounter = 0;
+	//private static int idCounter = 0;
 	public final Role role;
 	public final int id;
 	String division;
 	private String userName;
 	private String password;
 
-	public User(Role userType) {
-		this.id = idCounter;
-		idCounter++;
+	/*public User(int id, Role userType) {
+		this.id = id;
+		//idCounter++;
 		this.role = userType;
-	}
+	}*/
 
-	public User(Role userType, String division) {
-		this.id = idCounter;
-		idCounter++;
+	public User(int id, Role userType, String division) {
+		this.id = id;
+		//idCounter++;
 		this.role = userType;
 		this.division = division.trim();
 	}

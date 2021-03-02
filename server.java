@@ -94,7 +94,7 @@ public class server implements Runnable {
 
                 if (userStr.isPresent()) {
                     userInfo = userStr.get().split(", ");
-                    user = new User(Role.valueOf(userInfo[1]), userInfo[2]);
+                    user = new User(Integer.parseInt(userInfo[0]), Role.valueOf(userInfo[1]), userInfo[2]);
                 }
 
                 journals = WriterReader.getJournals("mockEntries.txt");
