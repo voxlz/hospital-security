@@ -25,7 +25,8 @@ public class Hash {
   }
 
   public static boolean verifyPassword(String hashPassword, String plainPassword) throws NoSuchAlgorithmException {
-    boolean isVerified = false;
+    
+	boolean isVerified = false;
     String salt = hashPassword.substring(0, 24);
     byte[] byteSalt = Base64.getDecoder().decode(salt);
     MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -37,6 +38,8 @@ public class Hash {
     hexString.append(Base64.getEncoder().encodeToString(hashedPassword));
     hexString.toString();
     isVerified = hashPassword.equals(hexString.toString());
+	System.out.println(hashPassword); 
+	System.out.println(hexString.toString());
     return isVerified;
   }
 }

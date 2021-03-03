@@ -11,17 +11,21 @@ public class Authenticator {
         if (user.id == entry.doctor || user.id == entry.nurse || user.id == entry.patient
             || user.division.equals(entry.division) || user.role == Role.Government)
           return true;
+		break;
       case write:
         if (user.role == Role.Doctor || user.role == Role.Nurse) {
           if (user.id == entry.doctor || user.id == entry.nurse)
             return true;
         }
+		break;
       case create:
         if (user.role == Role.Doctor && entry.doctor == user.id && user.division.equals(entry.division))
           return true;
+		break;
       case delete:
         if (user.role == Role.Government)
           return true;
+		break;
       default:
         break;
     }

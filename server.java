@@ -64,7 +64,7 @@ public class server implements Runnable {
         System.out.println(numConnectedClients + " concurrent connection(s)\n");
     }
 
-    private synchronized void handleMessages(SSLSocket socket) throws IOException {
+    private synchronized void handleMessages(SSLSocket socket) throws IOException{
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -81,14 +81,18 @@ public class server implements Runnable {
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client \n");
 
                 // Find matching user from "database"
-                List<String> userStrings = WriterReader.readFile("mockUsers.txt");
+                List<String> userStrings = WriterReader.readFile("mockUserHash.txt");
 
                 Optional<String> userStr = userStrings.stream().filter(str -> {
                     if (str.isEmpty())
                         return false;
 
                     String[] values = str.split(", ");
-                    correctUser = values[3].equals(username) && values[4].equals(password);
+					try {
+						correctUser = values[3].equals(username) && Hash.verifyPassword(values[4], password);
+					} catch (Exception e) {
+						correctUser = false;
+					}
                     return correctUser;
                 }).findFirst();
 
