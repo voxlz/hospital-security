@@ -108,7 +108,7 @@ public class server implements Runnable {
                             }).reduce((prev, curr) -> prev.concat(curr)).orElse("");
                 }
 
-                response = "ok:" + response;
+                //response = "ok:" + response;
                 out.println(response);
                 out.flush();
                 System.out.println("sent response: " + response);
