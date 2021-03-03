@@ -110,9 +110,9 @@ public class server implements Runnable {
                             .map(jour -> {
                                 return jour.toString() + ";";
                             }).reduce((prev, curr) -> prev.concat(curr)).orElse("");
+                    response = "ok:" + response;
                 }
 
-                //response = "ok:" + response;
                 out.println(response);
                 out.flush();
                 System.out.println("sent response: " + response);
