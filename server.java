@@ -126,12 +126,11 @@ public class server implements Runnable {
                     jour = journals.stream().filter(j -> j.getId() == Integer.parseInt(jourId)).findFirst()
                             .orElse(null);
 
-                System.out.println("jour: " + jour.toString());
-
                 System.out.println("command: " + command + ", " + jourId);
 
                 Boolean isAllowed = false;
                 if (jour != null) {
+					System.out.println("jour: " + jour.toString());
                     switch (command) {
                         case "read":
                             isAllowed = Authenticator.allowAction(user, jour, Action.read);
