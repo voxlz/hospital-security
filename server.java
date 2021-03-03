@@ -138,6 +138,9 @@ public class server implements Runnable {
                         case "delete":
                             isAllowed = Authenticator.allowAction(user, jour, Action.delete);
                             break;
+                        case "create":
+                            isAllowed = Authenticator.allowAction(user, jour, Action.create);
+                            break;
                         default:
                             isAllowed = null;
                     }

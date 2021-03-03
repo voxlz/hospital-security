@@ -126,8 +126,11 @@ public class ClientView {
 				quit = true;
 			} else {
 				if (isCommand) {
-					// System.out.println("Totally real server response to " + command + " ...");
-					userCommand(username, command);
+					if (command.split(" ").length < 2) {
+						System.out.println("Please write an id...");
+					} else {
+						userCommand(username, command);
+					}
 				} else {
 					System.out.println(command + "does not exist...");
 				}
