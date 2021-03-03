@@ -37,7 +37,7 @@ public class ClientView {
 			username = read.nextLine();
 
 			System.out.print("Password: ");
-			// String password = read.nextLine();
+			//String password = read.nextLine();
 			String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(username, password);
@@ -123,6 +123,9 @@ public class ClientView {
 				System.out.println("delete \"id\"");
 				System.out.println("create \"id\"");
 			} else if (command.equals("quit")) {
+				String msg = "q:" + command;
+				out.println(msg);
+				out.flush();
 				quit = true;
 			} else {
 				if (isCommand) {

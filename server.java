@@ -78,6 +78,9 @@ public class server implements Runnable {
                 String username = loginInfo[0];
                 String password = loginInfo[1];
 
+                String logLoginInfo = "Client tried to login with username: " + username + " and password: " + password +  "\n";
+                WriterReader.write("auditLog.txt", logLoginInfo);
+
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client \n");
 
                 // Find matching user from "database"
@@ -113,6 +116,15 @@ public class server implements Runnable {
                     response = "ok:" + response;
                 }
 
+                String loginattempt = "Login attempt by user: " + username + " was ";
+
+                if(response.isEmpty()) {
+                    WriterReader.write("auditLog.txt", loginattempt + " sunuccessfull \n");
+                } else{
+                    WriterReader.write("auditLog.txt", loginattempt + " successfull \n");
+
+                }
+
                 out.println(response);
                 out.flush();
                 System.out.println("sent response: " + response);
@@ -127,6 +139,9 @@ public class server implements Runnable {
                             .orElse(null);
 
                 System.out.println("command: " + command + ", " + jourId);
+
+                String incomingComand = user.getUserType() + " " + user.getId() + " entered command: " + command + " for id number: " + jour.getId() + "\n";
+                WriterReader.write("auditLog.txt",incomingComand);
 
                 Boolean isAllowed = false;
                 if (jour != null) {
@@ -149,11 +164,21 @@ public class server implements Runnable {
                     }
                 }
                 if (isAllowed == null) {
+                    WriterReader.write("auditLog.txt", " The command entered does not exist \n");
                     out.println("Command does not exists");
                 } else {
+                    if(isAllowed){
+                        WriterReader.write("auditLog.txt", " Premission was granted \n");
+                    } else{
+                        WriterReader.write("auditLog.txt", " Premission was denied \n ");
+                    }
                     out.println("response: " + isAllowed);
                 }
 
+            }
+            else if(clientMsg.startsWith("q:")){
+                String logOut = "" + user.getUserType() + " " + user.getId() + " was logged out of system \n";
+                WriterReader.write("auditLog.txt", logOut);
             }
         }
         System.out.println("2");

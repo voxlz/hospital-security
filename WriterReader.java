@@ -65,7 +65,7 @@ public class WriterReader {
 	 * Takes a filename and a String and adds that string in a newline to the file
 	 * Creates a new file if it doesnt exist
 	 */
-	private static void write(String fileName, final String s) throws IOException {
+	public static void write(String fileName, final String s) throws IOException {
 		Path filePath = Paths.get(fileName);
 		Files.writeString(filePath, System.lineSeparator() + s, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 	}
