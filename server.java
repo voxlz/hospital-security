@@ -78,7 +78,7 @@ public class server implements Runnable {
                 String username = loginInfo[0];
                 String password = loginInfo[1];
 
-                String logLoginInfo = "Client tried to login with username: " + username + " and password: " + password +  "\n";
+                String logLoginInfo = "Client tried to login with username: " + username +  "\n";
                 WriterReader.write("auditLog.txt", logLoginInfo);
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client \n");
