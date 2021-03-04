@@ -1,18 +1,3 @@
 
-Client tried to login with username: lisa and password: test
-
-Login attempt by user: lisa was  sunuccessfull 
-
-Client tried to login with username: bbb and password: l0sen0rd
-
-Login attempt by user: bbb was  successfull 
-
-Patient 10 entered command: read for id number: 11
-
- Premission was granted 
-
-Patient 10 entered command: write for id number: 9
-
- Premission was denied 
- 
-Patient 10 was logged out of system 
+Client tried to login with username: aasdasd
+Login attempt by user: aasdasd was unsuccessfully

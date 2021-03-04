@@ -64,7 +64,7 @@ public class server implements Runnable {
         System.out.println(numConnectedClients + " concurrent connection(s)\n");
     }
 
-    private synchronized void handleMessages(SSLSocket socket) throws IOException{
+    private synchronized void handleMessages(SSLSocket socket) throws IOException {
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -78,7 +78,7 @@ public class server implements Runnable {
                 String username = loginInfo[0];
                 String password = loginInfo[1];
 
-                String logLoginInfo = "Client tried to login with username: " + username +  "\n";
+                String logLoginInfo = "Client tried to login with username: " + username;
                 WriterReader.write("auditLog.txt", logLoginInfo);
 
                 System.out.println("received '" + loginInfo[0] + " " + loginInfo[1] + "' from client \n");
@@ -91,11 +91,11 @@ public class server implements Runnable {
                         return false;
 
                     String[] values = str.split(", ");
-					try {
-						correctUser = values[3].equals(username) && Hash.verifyPassword(values[4], password);
-					} catch (Exception e) {
-						correctUser = false;
-					}
+                    try {
+                        correctUser = values[3].equals(username) && Hash.verifyPassword(values[4], password);
+                    } catch (Exception e) {
+                        correctUser = false;
+                    }
                     return correctUser;
                 }).findFirst();
 
@@ -116,12 +116,12 @@ public class server implements Runnable {
                     response = "ok:" + response;
                 }
 
-                String loginattempt = "Login attempt by user: " + username + " was ";
+                String loginAttempt = "Login attempt by user: " + username + " was ";
 
-                if(response.isEmpty()) {
-                    WriterReader.write("auditLog.txt", loginattempt + " sunuccessfull \n");
-                } else{
-                    WriterReader.write("auditLog.txt", loginattempt + " successfull \n");
+                if (response.isEmpty()) {
+                    WriterReader.write("auditLog.txt", loginAttempt + "unsuccessfully");
+                } else {
+                    WriterReader.write("auditLog.txt", loginAttempt + "successfully");
 
                 }
 
@@ -140,12 +140,13 @@ public class server implements Runnable {
 
                 System.out.println("command: " + command + ", " + jourId);
 
-                String incomingComand = user.getUserType() + " " + user.getId() + " entered command: " + command + " for id number: " + jour.getId() + "\n";
-                WriterReader.write("auditLog.txt",incomingComand);
+                String incomingComand = user.getUserType() + " " + user.getId() + " entered command: " + command
+                        + " for id number: " + jour.getId();
+                WriterReader.write("auditLog.txt", incomingComand);
 
                 Boolean isAllowed = false;
                 if (jour != null) {
-					System.out.println("jour: " + jour.toString());
+                    System.out.println("jour: " + jour.toString());
                     switch (command) {
                         case "read":
                             isAllowed = Authenticator.allowAction(user, jour, Action.read);
@@ -164,20 +165,19 @@ public class server implements Runnable {
                     }
                 }
                 if (isAllowed == null) {
-                    WriterReader.write("auditLog.txt", " The command entered does not exist \n");
+                    WriterReader.write("auditLog.txt", "The command entered does not exist");
                     out.println("Command does not exists");
                 } else {
-                    if(isAllowed){
-                        WriterReader.write("auditLog.txt", " Premission was granted \n");
-                    } else{
-                        WriterReader.write("auditLog.txt", " Premission was denied \n ");
+                    if (isAllowed) {
+                        WriterReader.write("auditLog.txt", "Permission was granted");
+                    } else {
+                        WriterReader.write("auditLog.txt", "Permission was denied");
                     }
                     out.println("response: " + isAllowed);
                 }
 
-            }
-            else if(clientMsg.startsWith("q:")){
-                String logOut = "" + user.getUserType() + " " + user.getId() + " was logged out of system \n";
+            } else if (clientMsg.startsWith("q:")) {
+                String logOut = "" + user.getUserType() + " " + user.getId() + " was logged out of system";
                 WriterReader.write("auditLog.txt", logOut);
             }
         }
