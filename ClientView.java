@@ -12,7 +12,6 @@ public class ClientView {
 	PrintWriter out;
 	BufferedReader in;
 	Scanner read;
-	String username;
 	private boolean isCommand;
 	private Action action;
 
@@ -22,7 +21,7 @@ public class ClientView {
 		read = new Scanner(System.in);
 	}
 
-	public void login() throws IOException {
+	public void login(String username) throws IOException {
 		System.out.println("--------------------");
 		System.out.println("Welcome to this hospital Security");
 		System.out.println("--------------------");
@@ -33,18 +32,18 @@ public class ClientView {
 		boolean isValidUser = false;
 
 		while (!isValidUser) {
-			System.out.print("Username: ");
-			username = read.nextLine();
 
+			System.out.print("Please write your username: ");
+			System.console().readLine();
 			System.out.print("Password: ");
-			//String password = read.nextLine();
+			// String password = read.nextLine();
 			String password = String.valueOf(System.console().readPassword());
 
 			isValidUser = authUserOnServer(username, password);
 		}
 	}
 
-	private void userCommand(String username, String command) throws IOException {
+	public void userCommand(String username, String command) throws IOException {
 		String msg = "c:" + command;
 		// want to check that it is a command
 
@@ -100,7 +99,7 @@ public class ClientView {
 	// return null;
 	// }
 
-	public void commandLoop() throws IOException {
+	public void commandLoop(String username) throws IOException {
 		boolean quit = false;
 		while (!quit) {
 			// Reading data using readLine

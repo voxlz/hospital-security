@@ -27,6 +27,9 @@ public class client {
         String host = null;
         int port = -1;
 
+        System.out.print("Please write your certificate name: ");
+        String username = System.console().readLine();
+
         for (int i = 0; i < args.length; i++) {
             System.out.println("args[" + i + "] = " + args[i]);
         }
@@ -51,7 +54,7 @@ public class client {
                 KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
                 TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
                 SSLContext ctx = SSLContext.getInstance("TLS");
-                ks.load(new FileInputStream("clientkeystore"), password); // keystore password (storepass)
+                ks.load(new FileInputStream("keystore/" + username), password); // keystore password (storepass)
                 ts.load(new FileInputStream("clienttruststore"), password); // truststore password (storepass);
                 kmf.init(ks, password); // user password (keypass)
                 tmf.init(ts); // keystore can be used as truststore here
@@ -78,8 +81,8 @@ public class client {
             // echoMsg(socket);
             ClientView view = new ClientView(socket);
 
-            view.login();
-            view.commandLoop();
+            view.login(username);
+            view.commandLoop(username);
             view.close();
 
             socket.close();
